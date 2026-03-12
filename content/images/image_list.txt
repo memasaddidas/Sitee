@@ -1,0 +1,24 @@
+# Список изображений, использованных на сайте (Упрощенный дизайн)
+
+Все изображения загружаются из динамического сервиса Picsum Photos для обеспечения высокого качества и тематического соответствия:
+
+1. Главный баннер (Hero):
+   URL: https://picsum.photos/seed/library-hero/1920/1080
+   Описание: Фоновое изображение для секции поиска.
+
+2. Интерьер (О нас):
+   - https://picsum.photos/seed/lib-interior/800/600
+   - https://picsum.photos/seed/lib-books/400/300
+   - https://picsum.photos/seed/lib-reading/400/300
+
+3. Обложки книг:
+   - Достоевский: https://picsum.photos/seed/dostoevsky/300/450
+   - 1984: https://picsum.photos/seed/1984/300/450
+   - Булгаков: https://picsum.photos/seed/bulgakov/300/450
+   - Киз: https://picsum.photos/seed/algernon/300/450
+   - Экзюпери: https://picsum.photos/seed/prince/300/450
+   - Харари: https://picsum.photos/seed/sapiens/300/450
+
+4. Мероприятия:
+   - Поэзия: https://picsum.photos/seed/poetry/600/400
+   - Каллиграфия: https://picsum.photos/seed/calligraphy/600/400
