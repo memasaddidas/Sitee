@@ -9,65 +9,84 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
-        .brand-blue { background-color: #1e40af; }
-        .text-brand-blue { color: #1e40af; }
-        .border-brand-blue { border-color: #1e40af; }
     </style>
 </head>
 <body class="bg-white min-h-screen flex flex-col">
     <nav class="border-b border-gray-100 py-4 px-6 bg-white sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2 text-brand-blue font-bold text-xl">
+        <div class="max-w-full lg:px-12 mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-[#1e40af] font-bold text-xl">
                 <i data-lucide="book"></i>
                 <span>БИБЛИОТЕКА</span>
             </a>
             <div class="hidden md:flex gap-8 text-sm font-bold text-gray-600 uppercase tracking-wider">
-                <a href="index.html" class="hover:text-brand-blue transition-colors">Главная</a>
-                <a href="catalog.html" class="hover:text-brand-blue transition-colors">Каталог</a>
-                <a href="events.html" class="hover:text-brand-blue transition-colors">События</a>
-                <a href="about.html" class="text-brand-blue">О нас</a>
+                <a href="index.html" class="hover:text-[#1e40af] transition-colors">Главная</a>
+                <a href="catalog.html" class="hover:text-[#1e40af] transition-colors">Каталог</a>
+                <a href="events.html" class="hover:text-[#1e40af] transition-colors">События</a>
+                <a href="about.html" class="text-[#1e40af]">О нас</a>
             </div>
-            <button class="p-2 text-gray-400 hover:text-brand-blue transition-colors">
+            <button class="p-2 text-gray-400 hover:text-[#1e40af] transition-colors">
                 <i data-lucide="user"></i>
             </button>
         </div>
     </nav>
 
-    <main class="flex-grow py-8 px-4 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-8 items-start">
+    <main class="flex-grow py-8 px-4 max-w-full lg:px-12 mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-start">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 mb-4">О библиотеке</h1>
-                <div class="space-y-3 text-sm text-gray-600 leading-relaxed">
-                    <p>Муниципальная городская библиотека — это современное информационное пространство, объединяющее традиции и технологии.</p>
-                    <p>Основанная в 1924 году, сегодня библиотека располагает фондом более 500 000 единиц хранения.</p>
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">О библиотеке</h1>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Наша библиотека — это не просто хранилище книг, а современное пространство для саморазвития, творчества и общения. Мы объединяем традиции классического чтения с новейшими цифровыми технологиями.
+                </p>
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="text-[#1e40af] mb-2"><i data-lucide="wifi" size="24"></i></div>
+                        <h3 class="font-bold text-gray-900 text-sm mb-1">Бесплатный Wi-Fi</h3>
+                        <p class="text-xs text-gray-500">Высокоскоростной доступ во всех залах.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="text-[#1e40af] mb-2"><i data-lucide="coffee" size="24"></i></div>
+                        <h3 class="font-bold text-gray-900 text-sm mb-1">Коворкинг</h3>
+                        <p class="text-xs text-gray-500">Уютные места для работы и учебы.</p>
+                    </div>
                 </div>
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                    <ul class="grid grid-cols-2 gap-3">
-                        <li class="flex items-center gap-2 text-[10px] text-gray-700 font-bold uppercase">
-                            <div class="w-1 h-1 bg-brand-blue rounded-full"></div>
-                            Бесплатный Wi-Fi
-                        </li>
-                        <li class="flex items-center gap-2 text-[10px] text-gray-700 font-bold uppercase">
-                            <div class="w-1 h-1 bg-brand-blue rounded-full"></div>
-                            Бронирование
-                        </li>
-                    </ul>
-                </div>
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Наша миссия</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    Предоставлять равный доступ к информации и знаниям для всех жителей города, поддерживать интерес к чтению и способствовать культурному развитию общества.
+                </p>
             </div>
-            <div class="relative">
-                <img src="https://picsum.photos/seed/lib-interior/800/600" alt="Интерьер библиотеки" class="rounded-lg shadow-lg border border-gray-200">
+            <div class="space-y-6">
+                <img src="https://picsum.photos/seed/library-interior/800/600" alt="Интерьер" class="rounded-xl shadow-lg w-full object-cover aspect-video">
+                <div class="bg-[#1e40af] text-white p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-4">Станьте читателем сегодня</h3>
+                    <p class="text-blue-100 mb-6 text-sm">Для записи вам понадобится только паспорт. Оформите читательский билет за 5 минут и получите доступ ко всем ресурсам.</p>
+                    <button class="bg-white text-[#1e40af] px-6 py-2 rounded font-bold text-sm hover:bg-blue-50 transition-colors">ОФОРМИТЬ БИЛЕТ</button>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-gray-100 py-10 px-6 mt-auto">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer class="bg-white border-t border-gray-100 py-10 px-6">
+        <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
             <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 text-brand-blue font-bold text-xl mb-4">
+                <div class="flex items-center gap-2 text-[#1e40af] font-bold text-xl mb-4">
                     <i data-lucide="book"></i>
                     <span>БИБЛИОТЕКА</span>
                 </div>
                 <p class="text-sm text-gray-500 max-w-sm">Главная городская библиотека — ваш надежный проводник в мире литературы и знаний с 1924 года.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-4 text-xs uppercase tracking-widest">Контакты</h4>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <div class="flex items-center gap-2"><i data-lucide="map-pin" size="14"></i> ул. Пушкина, 10</div>
+                    <div class="flex items-center gap-2"><i data-lucide="phone" size="14"></i> +7 (800) 123-45-67</div>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-4 text-xs uppercase tracking-widest">Режим работы</h4>
+                <div class="text-sm text-gray-600">
+                    Пн-Пт: 09:00 — 20:00<br>
+                    Сб-Вс: 10:00 — 18:00
+                </div>
             </div>
         </div>
     </footer>
