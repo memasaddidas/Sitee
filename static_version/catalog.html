@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог — Городская Библиотека</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .brand-blue { background-color: #1e40af; }
+        .text-brand-blue { color: #1e40af; }
+        .border-brand-blue { border-color: #1e40af; }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+    <nav class="border-b border-gray-100 py-4 px-6 bg-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-brand-blue font-bold text-xl">
+                <i data-lucide="book"></i>
+                <span>БИБЛИОТЕКА</span>
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-bold text-gray-600 uppercase tracking-wider">
+                <a href="index.html" class="hover:text-brand-blue transition-colors">Главная</a>
+                <a href="catalog.html" class="text-brand-blue">Каталог</a>
+                <a href="events.html" class="hover:text-brand-blue transition-colors">События</a>
+                <a href="about.html" class="hover:text-brand-blue transition-colors">О нас</a>
+            </div>
+            <button class="p-2 text-gray-400 hover:text-brand-blue transition-colors">
+                <i data-lucide="user"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-8 px-4 max-w-7xl mx-auto">
+        <div class="border-b border-gray-200 pb-6 mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-3">Электронный каталог</h1>
+            <div class="flex flex-wrap gap-1.5">
+                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-brand-blue border-brand-blue text-white shadow-sm">ВСЕ</button>
+                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-white border-gray-200 text-gray-500 hover:border-brand-blue hover:text-brand-blue">КЛАССИКА</button>
+                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-white border-gray-200 text-gray-500 hover:border-brand-blue hover:text-brand-blue">ФАНТАСТИКА</button>
+                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-white border-gray-200 text-gray-500 hover:border-brand-blue hover:text-brand-blue">НАУЧПОП</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <!-- Книги (повторяющиеся карточки для примера) -->
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
+                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100">
+                    <img src="https://picsum.photos/seed/dostoevsky/300/450" alt="Книга" class="w-full h-full object-cover">
+                </div>
+                <div class="p-3 flex flex-col flex-grow">
+                    <span class="text-[9px] font-bold text-brand-blue uppercase mb-1">Классика</span>
+                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Преступление и наказание</h3>
+                    <p class="text-[10px] text-gray-500 mb-3">Ф. Достоевский</p>
+                    <button onclick="bookItem(this)" class="mt-auto w-full py-1.5 rounded text-[10px] font-bold transition-colors border-2 bg-brand-blue border-brand-blue text-white hover:bg-blue-800">ЗАБРОНИРОВАТЬ</button>
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
+                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100">
+                    <img src="https://picsum.photos/seed/1984/300/450" alt="Книга" class="w-full h-full object-cover">
+                </div>
+                <div class="p-3 flex flex-col flex-grow">
+                    <span class="text-[9px] font-bold text-brand-blue uppercase mb-1">Антиутопия</span>
+                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">1984</h3>
+                    <p class="text-[10px] text-gray-500 mb-3">Дж. Оруэлл</p>
+                    <button onclick="bookItem(this)" class="mt-auto w-full py-1.5 rounded text-[10px] font-bold transition-colors border-2 bg-brand-blue border-brand-blue text-white hover:bg-blue-800">ЗАБРОНИРОВАТЬ</button>
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
+                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100">
+                    <img src="https://picsum.photos/seed/bulgakov/300/450" alt="Книга" class="w-full h-full object-cover">
+                </div>
+                <div class="p-3 flex flex-col flex-grow">
+                    <span class="text-[9px] font-bold text-brand-blue uppercase mb-1">Классика</span>
+                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Мастер и Маргарита</h3>
+                    <p class="text-[10px] text-gray-500 mb-3">М. Булгаков</p>
+                    <button onclick="bookItem(this)" class="mt-auto w-full py-1.5 rounded text-[10px] font-bold transition-colors border-2 bg-brand-blue border-brand-blue text-white hover:bg-blue-800">ЗАБРОНИРОВАТЬ</button>
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
+                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100">
+                    <img src="https://picsum.photos/seed/algernon/300/450" alt="Книга" class="w-full h-full object-cover">
+                </div>
+                <div class="p-3 flex flex-col flex-grow">
+                    <span class="text-[9px] font-bold text-brand-blue uppercase mb-1">Научпоп</span>
+                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Цветы для Элджернона</h3>
+                    <p class="text-[10px] text-gray-500 mb-3">Д. Киз</p>
+                    <button onclick="bookItem(this)" class="mt-auto w-full py-1.5 rounded text-[10px] font-bold transition-colors border-2 bg-brand-blue border-brand-blue text-white hover:bg-blue-800">ЗАБРОНИРОВАТЬ</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-10 px-6 mt-auto">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2 text-brand-blue font-bold text-xl mb-4">
+                    <i data-lucide="book"></i>
+                    <span>БИБЛИОТЕКА</span>
+                </div>
+                <p class="text-sm text-gray-500 max-w-sm">Главная городская библиотека — ваш надежный проводник в мире литературы и знаний с 1924 года.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-4 text-xs uppercase tracking-widest">Контакты</h4>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <div class="flex items-center gap-2"><i data-lucide="map-pin" size="14"></i> ул. Пушкина, 10</div>
+                    <div class="flex items-center gap-2"><i data-lucide="phone" size="14"></i> +7 (800) 123-45-67</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        function bookItem(btn) {
+            btn.innerText = 'В КОРЗИНЕ';
+            btn.classList.remove('bg-brand-blue', 'hover:bg-blue-800');
+            btn.classList.add('bg-gray-100', 'text-gray-400', 'border-gray-200', 'cursor-not-allowed');
+            btn.disabled = true;
+            alert('Книга успешно забронирована!');
+        }
+    </script>
+</body>
+</html>
