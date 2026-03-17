@@ -4,6 +4,11 @@ import { motion } from 'motion/react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
 // --- Types ---
+interface User {
+  name: string;
+  email: string;
+}
+
 interface BookData {
   id: number;
   title: string;
@@ -26,17 +31,13 @@ interface EventData {
 // --- Mock Data ---
 const BOOKS: BookData[] = [
   { id: 1, title: "Преступление и наказание", author: "Фёдор Достоевский", cover: "https://picsum.photos/seed/dostoevsky/300/450", category: "Классика", available: true, description: "Глубокое философское исследование человеческой души, вины и искупления." },
-  { id: 2, title: "1984", author: "Джордж Оруэлл", cover: "https://picsum.photos/seed/1984/300/450", category: "Антиутопия", available: true, description: "Культовый роман о тоталитарном обществе и потере индивидуальности." },
-  { id: 3, title: "Мастер и Маргарита", author: "Михаил Булгаков", cover: "https://picsum.photos/seed/bulgakov/300/450", category: "Классика", available: true, description: "Мистическая история о любви, творчестве и визите дьявола в Москву." },
-  { id: 4, title: "Цветы для Элджернона", author: "Дэниел Киз", cover: "https://picsum.photos/seed/algernon/300/450", category: "Фантастика", available: true, description: "Трогательная история об эксперименте по повышению интеллекта." },
-  { id: 5, title: "Маленький принц", author: "Антуан де Сент-Экзюпери", cover: "https://picsum.photos/seed/prince/300/450", category: "Сказка", available: true, description: "Мудрая сказка для детей и взрослых о самом важном в жизни." },
-  { id: 6, title: "Sapiens", author: "Юваль Ной Харари", cover: "https://picsum.photos/seed/sapiens/300/450", category: "Научпоп", available: true, description: "Краткая история человечества от каменного века до современности." },
-  { id: 7, title: "Портрет Дориана Грея", author: "Оскар Уайльд", cover: "https://picsum.photos/seed/dorian/300/450", category: "Классика", available: true, description: "История о вечной молодости и моральном разложении." },
-  { id: 8, title: "451 градус по Фаренгейту", author: "Рэй Брэдбери", cover: "https://picsum.photos/seed/fahrenheit/300/450", category: "Антиутопия", available: true, description: "Мир, где книги сжигают, а чтение — преступление." },
-  { id: 9, title: "Три товарища", author: "Эрих Мария Ремарк", cover: "https://picsum.photos/seed/remarque/300/450", category: "Классика", available: true, description: "Роман о дружбе, любви и потерянном поколении." },
-  { id: 10, title: "Алхимик", author: "Пауло Коэльо", cover: "https://picsum.photos/seed/alchemist/300/450", category: "Философия", available: true, description: "Притча о следовании своей мечте." },
-  { id: 11, title: "Великий Гэтсби", author: "Ф. Скотт Фицджеральд", cover: "https://picsum.photos/seed/gatsby/300/450", category: "Классика", available: true, description: "История о любви и американской мечте в эпоху джаза." },
-  { id: 12, title: "Убить пересмешника", author: "Харпер Ли", cover: "https://picsum.photos/seed/mockingbird/300/450", category: "Классика", available: true, description: "Роман о взрослении и борьбе с несправедливостью." },
+  { id: 2, title: "Три мушкетера", author: "Александр Дюма", cover: "https://picsum.photos/seed/dumas/300/450", category: "Роман", available: true, description: "Классика приключенческого романа о дружбе и чести." },
+  { id: 3, title: "Братья Карамазовы", author: "Фёдор Достоевский", cover: "https://picsum.photos/seed/karamazov/300/450", category: "Классика", available: true, description: "Последний роман писателя, ставший вершиной его творчества." },
+  { id: 4, title: "Идиот", author: "Фёдор Достоевский", cover: "https://picsum.photos/seed/idiot/300/450", category: "Классика", available: true, description: "История о 'положительно прекрасном человеке' в жестоком мире." },
+  { id: 5, title: "1984", author: "Джордж Оруэлл", cover: "https://picsum.photos/seed/1984/300/450", category: "Антиутопия", available: true },
+  { id: 6, title: "Мастер и Маргарита", author: "Михаил Булгаков", cover: "https://picsum.photos/seed/bulgakov/300/450", category: "Классика", available: true },
+  { id: 7, title: "Sapiens", author: "Юваль Ной Харари", cover: "https://picsum.photos/seed/sapiens/300/450", category: "Научпоп", available: true },
+  { id: 8, title: "451 градус по Фаренгейту", author: "Рэй Брэдбери", cover: "https://picsum.photos/seed/fahrenheit/300/450", category: "Антиутопия", available: true },
 ];
 
 const EVENTS: EventData[] = [
@@ -46,6 +47,81 @@ const EVENTS: EventData[] = [
 
 // --- Shared Components ---
 
+const AuthModal: React.FC<{ isOpen: boolean; onClose: () => void; onLogin: (user: User) => void }> = ({ isOpen, onClose, onLogin }) => {
+  const [isRegister, setIsRegister] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onLogin({ name: isRegister ? name : 'Константин', email });
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl"
+      >
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+          {isRegister ? 'Регистрация' : 'Вход в систему'}
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {isRegister && (
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Имя</label>
+              <input 
+                type="text" 
+                required 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2 rounded-xl border border-gray-200 outline-none focus:border-brand-blue"
+                placeholder="Иван Иванов"
+              />
+            </div>
+          )}
+          <div>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label>
+            <input 
+              type="email" 
+              required 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 outline-none focus:border-brand-blue"
+              placeholder="example@mail.ru"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Пароль</label>
+            <input 
+              type="password" 
+              required 
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 outline-none focus:border-brand-blue"
+              placeholder="••••••••"
+            />
+          </div>
+          <button type="submit" className="w-full py-3 bg-brand-blue text-white rounded-xl font-bold hover:bg-blue-800 transition-colors">
+            {isRegister ? 'Создать аккаунт' : 'Войти'}
+          </button>
+        </form>
+        <div className="mt-6 text-center">
+          <button 
+            onClick={() => setIsRegister(!isRegister)}
+            className="text-xs text-brand-blue font-bold hover:underline"
+          >
+            {isRegister ? 'Уже есть аккаунт? Войти' : 'Нет аккаунта? Зарегистрироваться'}
+          </button>
+        </div>
+        <button onClick={onClose} className="mt-4 w-full text-xs text-gray-400 hover:text-gray-600">Отмена</button>
+      </motion.div>
+    </div>
+  );
+};
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -54,30 +130,44 @@ const ScrollToTop = () => {
   return null;
 };
 
-const Navbar = () => (
+const Navbar: React.FC<{ user: User | null; onAuthClick: () => void; onLogout: () => void }> = ({ user, onAuthClick, onLogout }) => (
   <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
     <div className="max-w-full px-4 sm:px-6 lg:px-12">
       <div className="flex justify-between h-16 items-center">
         <Link to="/" className="flex items-center gap-3">
           <Book className="text-brand-blue" size={32} />
           <div className="flex flex-col">
-            <span className="text-lg font-bold leading-none text-brand-blue">ГОРОДСКАЯ</span>
-            <span className="text-sm font-medium leading-none text-gray-500">БИБЛИОТЕКА</span>
+            <span className="text-lg font-bold leading-none text-brand-blue">БИБЛИОТЕКА</span>
+            <span className="text-sm font-medium leading-none text-gray-500">Г. ОБНИНСК</span>
           </div>
         </Link>
         <nav className="hidden md:flex space-x-8">
-          <Link to="/catalog" className="text-gray-600 hover:text-brand-blue font-medium">Каталог</Link>
-          <Link to="/events" className="text-gray-600 hover:text-brand-blue font-medium">Мероприятия</Link>
-          <Link to="/about" className="text-gray-600 hover:text-brand-blue font-medium">О библиотеке</Link>
+          <Link to="/" className="text-gray-600 hover:text-brand-blue font-medium">ГЛАВНАЯ</Link>
+          <Link to="/catalog" className="text-gray-600 hover:text-brand-blue font-medium">КАТАЛОГ</Link>
+          <Link to="/events" className="text-gray-600 hover:text-brand-blue font-medium">СОБЫТИЯ</Link>
+          <Link to="/about" className="text-gray-600 hover:text-brand-blue font-medium">О НАС</Link>
         </nav>
         <div className="flex items-center gap-4">
-          <button className="hidden sm:flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-brand-blue">
-            <User size={20} />
-            <span>Личный кабинет</span>
-          </button>
-          <button className="md:hidden p-2 text-gray-600">
-            <Search size={24} />
-          </button>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:inline text-sm font-bold text-gray-700">{user.name}</span>
+              <button 
+                onClick={onLogout}
+                className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                title="Выйти"
+              >
+                <User size={20} />
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={onAuthClick}
+              className="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-blue transition-colors"
+            >
+              <User size={20} />
+              <span className="hidden sm:inline">ВОЙТИ</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -90,7 +180,7 @@ const Footer = () => (
       <div className="col-span-1 md:col-span-2">
         <div className="flex items-center gap-3 mb-6">
           <Book className="text-brand-blue" size={28} />
-          <span className="text-xl font-bold text-brand-blue">ГОРОДСКАЯ БИБЛИОТЕКА</span>
+          <span className="text-xl font-bold text-brand-blue">БИБЛИОТЕКА Г. ОБНИНСК</span>
         </div>
         <p className="text-gray-500 max-w-sm mb-6">
           Официальный портал муниципальных библиотек города. Мы работаем для вас каждый день.
@@ -146,25 +236,29 @@ const Footer = () => (
 
 // --- Components ---
 
-const BookCard: React.FC<{ book: BookData }> = ({ book }) => {
+const BookCard: React.FC<{ book: BookData; user: User | null; onAuthRequired: () => void }> = ({ book, user, onAuthRequired }) => {
   const [isBooked, setIsBooked] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleBook = () => {
+    if (!user) {
+      onAuthRequired();
+      return;
+    }
     setIsBooked(true);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow relative">
+    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
       {showSuccess && (
         <div className="absolute inset-x-0 top-0 z-20 bg-green-600 text-white text-[10px] py-1 px-2 font-bold text-center">
           Книга забронирована!
         </div>
       )}
-      <div className="aspect-[3/4] relative overflow-hidden bg-gray-100">
-        <img src={book.cover} alt={book.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+      <div className="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
+        <img src={book.cover} alt={book.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" />
         {(!book.available || isBooked) && (
           <div className="absolute inset-0 bg-white/80 flex items-center justify-center p-4 text-center">
             <span className="text-xs font-bold text-gray-900 uppercase border-2 border-gray-900 px-2 py-1">
@@ -181,9 +275,9 @@ const BookCard: React.FC<{ book: BookData }> = ({ book }) => {
           <button 
             onClick={handleBook}
             disabled={!book.available || isBooked} 
-            className={`w-full py-2 rounded text-xs font-bold transition-colors border-2 ${
+            className={`w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 ${
               (book.available && !isBooked) 
-                ? 'bg-brand-blue border-brand-blue text-white hover:bg-blue-800' 
+                ? 'bg-brand-blue border-brand-blue text-white hover:bg-blue-800 shadow-lg shadow-blue-200' 
                 : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
@@ -235,47 +329,25 @@ const EventCard: React.FC<{ event: EventData }> = ({ event }) => {
 
 // --- Pages ---
 
-const HomePage = () => (
+const HomePage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({ user, onAuthRequired }) => (
   <div className="animate-in fade-in duration-500">
-    <section className="bg-brand-blue py-10 px-4">
-      <div className="max-w-full lg:px-12 grid md:grid-cols-2 gap-8 items-center text-white">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-            Ваша библиотека — <br />всегда рядом
-          </h1>
-          <p className="text-base text-blue-100 mb-6 max-w-lg">
-            Поиск книг, бронирование онлайн и доступ к электронным ресурсам города в одном месте.
-          </p>
-          <div className="relative max-w-md">
-            <input 
-              type="text" 
-              placeholder="Поиск по каталогу..." 
-              className="w-full px-5 py-3 rounded bg-white text-gray-900 border-none outline-none text-sm shadow-lg"
-            />
-            <button className="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-brand-blue text-white rounded hover:bg-blue-800 transition-colors">
-              <Search size={18} />
-            </button>
-          </div>
-        </div>
-        <div className="hidden md:block">
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/10 text-center">
-              <div className="text-2xl font-bold mb-0.5">500к+</div>
-              <div className="text-[10px] uppercase tracking-wider opacity-70">Книг</div>
-            </div>
-            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/10 text-center">
-              <div className="text-2xl font-bold mb-0.5">15к</div>
-              <div className="text-[10px] uppercase tracking-wider opacity-70">Читателей</div>
-            </div>
-            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/10 text-center">
-              <div className="text-2xl font-bold mb-0.5">12</div>
-              <div className="text-[10px] uppercase tracking-wider opacity-70">Филиалов</div>
-            </div>
-            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/10 text-center">
-              <div className="text-2xl font-bold mb-0.5">24/7</div>
-              <div className="text-[10px] uppercase tracking-wider opacity-70">Онлайн</div>
-            </div>
-          </div>
+    <section className="bg-brand-blue py-16 px-4">
+      <div className="max-w-4xl mx-auto text-center text-white">
+        <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+          Библиотека города Обнинск
+        </h1>
+        <p className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">
+          Поиск книг, бронирование онлайн и доступ к электронным ресурсам города в одном месте.
+        </p>
+        <div className="relative max-w-2xl mx-auto">
+          <input 
+            type="text" 
+            placeholder="Поиск по каталогу..." 
+            className="w-full px-6 py-4 rounded-xl bg-white text-gray-900 border-none outline-none text-base shadow-2xl"
+          />
+          <button className="absolute right-2 top-2 bottom-2 w-12 bg-brand-blue text-white rounded-lg hover:bg-blue-800 transition-colors flex items-center justify-center">
+            <Search size={20} />
+          </button>
         </div>
       </div>
     </section>
@@ -289,7 +361,7 @@ const HomePage = () => (
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
         {BOOKS.slice(0, 8).map(book => (
-          <BookCard key={book.id} book={book} />
+          <BookCard key={book.id} book={book} user={user} onAuthRequired={onAuthRequired} />
         ))}
       </div>
     </section>
@@ -312,9 +384,9 @@ const HomePage = () => (
   </div>
 );
 
-const CatalogPage = () => {
+const CatalogPage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({ user, onAuthRequired }) => {
   const [activeCategory, setActiveCategory] = useState('Все');
-  const categories = ['Все', 'Классика', 'Фантастика', 'Антиутопия', 'Научпоп', 'Сказка'];
+  const categories = ['Все', 'Классика', 'Роман', 'Антиутопия', 'Научпоп'];
   const filteredBooks = activeCategory === 'Все' ? BOOKS : BOOKS.filter(b => b.category === activeCategory);
 
   return (
@@ -340,7 +412,7 @@ const CatalogPage = () => {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {filteredBooks.map(book => (
-          <BookCard key={book.id} book={book} />
+          <BookCard key={book.id} book={book} user={user} onAuthRequired={onAuthRequired} />
         ))}
       </div>
     </div>
@@ -368,7 +440,7 @@ const AboutPage = () => (
         <h1 className="text-2xl font-bold text-gray-900 mb-4">О библиотеке</h1>
         <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
           <p>Муниципальная городская библиотека — это современное информационное пространство, объединяющее традиции и технологии.</p>
-          <p>Основанная в 1924 году, сегодня библиотека располагает фондом более 500 000 единиц хранения.</p>
+          <p>Основанная в 1924 году, сегодня библиотека располагает фондом более 500 000 единиц хранения, доступных в центральном здании и 5 районных отделениях.</p>
         </div>
         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
           <ul className="grid grid-cols-2 gap-3">
@@ -391,15 +463,27 @@ const AboutPage = () => (
 );
 
 export default function App() {
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
   return (
     <Router>
       <ScrollToTop />
       <div className="min-h-screen bg-white">
-        <Navbar />
+        <Navbar 
+          user={user} 
+          onAuthClick={() => setIsAuthModalOpen(true)} 
+          onLogout={() => setUser(null)}
+        />
+        <AuthModal 
+          isOpen={isAuthModalOpen} 
+          onClose={() => setIsAuthModalOpen(false)} 
+          onLogin={(u) => setUser(u)}
+        />
         <main>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/catalog" element={<CatalogPage />} />
+            <Route path="/" element={<HomePage user={user} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
+            <Route path="/catalog" element={<CatalogPage user={user} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
