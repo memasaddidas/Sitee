@@ -138,34 +138,36 @@ const Navbar: React.FC<{ user: User | null; onAuthClick: () => void; onLogout: (
           <Book className="text-brand-blue" size={32} />
           <div className="flex flex-col">
             <span className="text-lg font-bold leading-none text-brand-blue">БИБЛИОТЕКА</span>
-            <span className="text-sm font-medium leading-none text-gray-500">Г. ОБНИНСК</span>
+            <span className="text-sm font-medium leading-none text-gray-500 uppercase tracking-tighter">Г. ОБНИНСК</span>
           </div>
         </Link>
         <nav className="hidden md:flex space-x-8">
-          <Link to="/" className="text-gray-600 hover:text-brand-blue font-medium">ГЛАВНАЯ</Link>
-          <Link to="/catalog" className="text-gray-600 hover:text-brand-blue font-medium">КАТАЛОГ</Link>
-          <Link to="/events" className="text-gray-600 hover:text-brand-blue font-medium">СОБЫТИЯ</Link>
-          <Link to="/about" className="text-gray-600 hover:text-brand-blue font-medium">О НАС</Link>
+          <Link to="/" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">ГЛАВНАЯ</Link>
+          <Link to="/catalog" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">КАТАЛОГ</Link>
+          <Link to="/events" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">СОБЫТИЯ</Link>
+          <Link to="/about" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">О НАС</Link>
         </nav>
         <div className="flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:inline text-sm font-bold text-gray-700">{user.name}</span>
+            <div className="flex items-center gap-4">
+              <Link to="/profile" className="flex items-center gap-2 text-xs font-bold text-brand-blue hover:underline">
+                <User size={18} />
+                <span>ПРОФИЛЬ</span>
+              </Link>
               <button 
                 onClick={onLogout}
-                className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-                title="Выйти"
+                className="text-[10px] font-bold text-gray-400 hover:text-red-500 transition-colors"
               >
-                <User size={20} />
+                ВЫЙТИ
               </button>
             </div>
           ) : (
             <button 
               onClick={onAuthClick}
-              className="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-blue transition-colors"
+              className="flex items-center gap-2 text-xs font-bold text-gray-600 hover:text-brand-blue transition-colors"
             >
               <User size={20} />
-              <span className="hidden sm:inline">ВОЙТИ</span>
+              <span>ВОЙТИ</span>
             </button>
           )}
         </div>
@@ -331,24 +333,48 @@ const EventCard: React.FC<{ event: EventData }> = ({ event }) => {
 
 const HomePage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({ user, onAuthRequired }) => (
   <div className="animate-in fade-in duration-500">
-    <section className="bg-brand-blue py-16 px-4">
-      <div className="max-w-4xl mx-auto text-center text-white">
-        <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+    <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
+      {/* Фоновое изображение */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=2000" 
+          alt="Library Background" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto text-center text-white px-4">
+        <motion.h1 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+        >
           Библиотека города Обнинск
-        </h1>
-        <p className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">
+        </motion.h1>
+        <motion.p 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="text-lg md:text-xl text-blue-50 mb-10 max-w-2xl mx-auto opacity-90"
+        >
           Поиск книг, бронирование онлайн и доступ к электронным ресурсам города в одном месте.
-        </p>
-        <div className="relative max-w-2xl mx-auto">
+        </motion.p>
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="relative max-w-2xl mx-auto"
+        >
           <input 
             type="text" 
-            placeholder="Поиск по каталогу..." 
-            className="w-full px-6 py-4 rounded-xl bg-white text-gray-900 border-none outline-none text-base shadow-2xl"
+            placeholder="Поиск по названию, автору или жанру..." 
+            className="w-full px-8 py-5 rounded-2xl bg-white text-gray-900 border-none outline-none text-lg shadow-2xl focus:ring-4 ring-brand-blue/20 transition-all"
           />
-          <button className="absolute right-2 top-2 bottom-2 w-12 bg-brand-blue text-white rounded-lg hover:bg-blue-800 transition-colors flex items-center justify-center">
-            <Search size={20} />
+          <button className="absolute right-2.5 top-2.5 bottom-2.5 w-14 bg-brand-blue text-white rounded-xl hover:bg-blue-800 transition-all flex items-center justify-center shadow-lg active:scale-95">
+            <Search size={24} />
           </button>
-        </div>
+        </motion.div>
       </div>
     </section>
 
@@ -462,6 +488,70 @@ const AboutPage = () => (
   </div>
 );
 
+const ProfilePage: React.FC<{ user: User | null }> = ({ user }) => {
+  if (!user) return <div className="py-20 text-center font-bold">Пожалуйста, войдите в систему</div>;
+
+  return (
+    <div className="max-w-4xl mx-auto py-12 px-4 animate-in slide-in-from-bottom-4 duration-500">
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+        <div className="bg-brand-blue p-8 text-white flex items-center gap-6">
+          <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/30">
+            <User size={40} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold">{user.name}</h1>
+            <p className="text-blue-100 opacity-80">{user.email}</p>
+            <div className="mt-2 inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-wider">
+              Читательский билет №84291
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="md:col-span-2">
+              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <Book className="text-brand-blue" size={20} />
+                Мои бронирования
+              </h2>
+              <div className="space-y-4">
+                {/* Болванка списка книг */}
+                {[BOOKS[0], BOOKS[1]].map(book => (
+                  <div key={book.id} className="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center">
+                    <img src={book.cover} className="w-12 h-16 object-cover rounded-lg shadow-sm" alt="" />
+                    <div className="flex-grow">
+                      <h3 className="text-sm font-bold text-gray-900">{book.title}</h3>
+                      <p className="text-xs text-gray-500">{book.author}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">ГОТОВА К ВЫДАЧЕ</span>
+                      <p className="text-[9px] text-gray-400 mt-1">До 24.03.2026</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h2 className="text-lg font-bold text-gray-900 mb-6">Статистика</h2>
+              <div className="space-y-4">
+                <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                  <div className="text-2xl font-bold text-brand-blue">12</div>
+                  <div className="text-[10px] font-bold text-blue-400 uppercase">Прочитано книг</div>
+                </div>
+                <div className="p-4 rounded-2xl bg-orange-50 border border-orange-100">
+                  <div className="text-2xl font-bold text-orange-600">2</div>
+                  <div className="text-[10px] font-bold text-orange-400 uppercase">Активных брони</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -484,6 +574,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage user={user} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
             <Route path="/catalog" element={<CatalogPage user={user} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
+            <Route path="/profile" element={<ProfilePage user={user} />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль — Городская Библиотека</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Навигация -->
+    <nav class="border-b border-gray-100 py-4 px-6 bg-white sticky top-0 z-50">
+        <div class="max-w-full lg:px-12 mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-[#1e40af] font-bold text-xl">
+                <i data-lucide="book"></i>
+                <div class="flex flex-col">
+                    <span class="text-lg font-bold leading-none">БИБЛИОТЕКА</span>
+                    <span class="text-[10px] font-medium leading-none text-gray-500 uppercase tracking-tighter">Г. ОБНИНСК</span>
+                </div>
+            </a>
+            <div class="hidden md:flex gap-8 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
+                <a href="index.html" class="hover:text-[#1e40af] transition-colors">Главная</a>
+                <a href="catalog.html" class="hover:text-[#1e40af] transition-colors">Каталог</a>
+                <a href="events.html" class="hover:text-[#1e40af] transition-colors">События</a>
+                <a href="about.html" class="hover:text-[#1e40af] transition-colors">О нас</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="profile.html" class="flex items-center gap-2 text-[10px] font-bold text-[#1e40af] hover:underline">
+                    <i data-lucide="user" size="16"></i>
+                    <span>ПРОФИЛЬ</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12 px-4 max-w-4xl mx-auto w-full">
+        <div class="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+            <div class="bg-[#1e40af] p-8 text-white flex items-center gap-6">
+                <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/30">
+                    <i data-lucide="user" size="40"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">Константин Александров</h1>
+                    <p class="text-blue-100 opacity-80">konstantin@example.com</p>
+                    <div class="mt-2 inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                        Читательский билет №84291
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-8">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2">
+                        <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                            <i data-lucide="book" class="text-[#1e40af]" size="20"></i>
+                            Мои бронирования
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center">
+                                <img src="https://picsum.photos/seed/dostoevsky/300/450" class="w-12 h-16 object-cover rounded-lg shadow-sm" alt="">
+                                <div class="flex-grow">
+                                    <h3 class="text-sm font-bold text-gray-900">Преступление и наказание</h3>
+                                    <p class="text-xs text-gray-500">Ф. Достоевский</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">ГОТОВА К ВЫДАЧЕ</span>
+                                    <p class="text-[9px] text-gray-400 mt-1">До 24.03.2026</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center">
+                                <img src="https://picsum.photos/seed/dumas/300/450" class="w-12 h-16 object-cover rounded-lg shadow-sm" alt="">
+                                <div class="flex-grow">
+                                    <h3 class="text-sm font-bold text-gray-900">Три мушкетера</h3>
+                                    <p class="text-xs text-gray-500">Александр Дюма</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">В ОБРАБОТКЕ</span>
+                                    <p class="text-[9px] text-gray-400 mt-1">Ожидайте SMS</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 mb-6">Статистика</h2>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                                <div class="text-2xl font-bold text-[#1e40af]">12</div>
+                                <div class="text-[10px] font-bold text-blue-400 uppercase">Прочитано книг</div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-orange-50 border border-orange-100">
+                                <div class="text-2xl font-bold text-orange-600">2</div>
+                                <div class="text-[10px] font-bold text-orange-400 uppercase">Активных брони</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-10 px-6">
+        <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2 text-[#1e40af] font-bold text-xl mb-4">
+                    <i data-lucide="book"></i>
+                    <span>БИБЛИОТЕКА</span>
+                </div>
+                <p class="text-sm text-gray-500 max-w-sm">Главная городская библиотека — ваш надежный проводник в мире литературы и знаний с 1924 года.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-4 text-xs uppercase tracking-widest">Контакты</h4>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <div class="flex items-center gap-2"><i data-lucide="map-pin" size="14"></i> ул. Пушкина, 10</div>
+                    <div class="flex items-center gap-2"><i data-lucide="phone" size="14"></i> +7 (800) 123-45-67</div>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-4 text-xs uppercase tracking-widest">Режим работы</h4>
+                <div class="text-sm text-gray-600">
+                    Пн-Пт: 09:00 — 20:00<br>
+                    Сб-Вс: 10:00 — 18:00
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
