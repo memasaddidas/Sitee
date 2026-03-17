@@ -28,10 +28,10 @@
                 <a href="about.html" class="hover:text-[#1e40af] transition-colors">О нас</a>
             </div>
             <div class="flex items-center gap-4">
-                <a href="profile.html" class="flex items-center gap-2 text-[10px] font-bold text-[#1e40af] hover:underline">
+                <button onclick="openAuthModal()" class="flex items-center gap-2 text-[10px] font-bold text-[#1e40af] hover:underline">
                     <i data-lucide="user" size="16"></i>
                     <span>ПРОФИЛЬ</span>
-                </a>
+                </button>
             </div>
         </div>
     </nav>
@@ -44,9 +44,9 @@
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold">Константин Александров</h1>
-                    <p class="text-blue-100 opacity-80">konstantin@example.com</p>
-                    <div class="mt-2 inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                        Читательский билет №84291
+                    <p class="text-blue-100 opacity-80">memasasdd@gmail.com</p>
+                    <div id="library-card-status" class="mt-2 inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-wider cursor-pointer hover:bg-white/30 transition-all" onclick="openLibraryCardModal()">
+                        Оформить читательский билет
                     </div>
                 </div>
             </div>
@@ -59,26 +59,26 @@
                             Мои бронирования
                         </h2>
                         <div class="space-y-4">
-                            <div class="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center">
+                            <div class="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center group">
                                 <img src="https://picsum.photos/seed/dostoevsky/300/450" class="w-12 h-16 object-cover rounded-lg shadow-sm" alt="">
                                 <div class="flex-grow">
                                     <h3 class="text-sm font-bold text-gray-900">Преступление и наказание</h3>
                                     <p class="text-xs text-gray-500">Ф. Достоевский</p>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-right flex flex-col items-end gap-2">
                                     <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">ГОТОВА К ВЫДАЧЕ</span>
-                                    <p class="text-[9px] text-gray-400 mt-1">До 24.03.2026</p>
+                                    <button onclick="confirmAction('Отменить бронирование?', () => this.closest('.flex').remove())" class="text-[9px] text-red-500 font-bold hover:underline opacity-0 group-hover:opacity-100 transition-opacity">ОТМЕНИТЬ</button>
                                 </div>
                             </div>
-                            <div class="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center">
+                            <div class="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center group">
                                 <img src="https://picsum.photos/seed/dumas/300/450" class="w-12 h-16 object-cover rounded-lg shadow-sm" alt="">
                                 <div class="flex-grow">
                                     <h3 class="text-sm font-bold text-gray-900">Три мушкетера</h3>
                                     <p class="text-xs text-gray-500">Александр Дюма</p>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-right flex flex-col items-end gap-2">
                                     <span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">В ОБРАБОТКЕ</span>
-                                    <p class="text-[9px] text-gray-400 mt-1">Ожидайте SMS</p>
+                                    <button onclick="confirmAction('Отменить бронирование?', () => this.closest('.flex').remove())" class="text-[9px] text-red-500 font-bold hover:underline opacity-0 group-hover:opacity-100 transition-opacity">ОТМЕНИТЬ</button>
                                 </div>
                             </div>
                         </div>
@@ -101,6 +101,47 @@
             </div>
         </div>
     </main>
+
+    <!-- Модальное окно: Читательский билет -->
+    <div id="library-card-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeLibraryCardModal()"></div>
+        <div class="relative bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="bg-[#1e40af] p-6 text-white">
+                <h3 class="text-xl font-bold">Оформление билета</h3>
+                <p class="text-xs text-blue-100 opacity-80 mt-1">Заполните данные для получения доступа к фонду</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">ФИО полностью</label>
+                    <input type="text" value="Константин Александров" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Адрес проживания</label>
+                    <input type="text" placeholder="г. Обнинск, ул. ..." class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Телефон</label>
+                    <input type="tel" placeholder="+7 (___) ___-__-__" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                </div>
+                <button onclick="submitLibraryCard()" class="w-full py-4 bg-[#1e40af] text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-blue-800 transition-all shadow-lg shadow-blue-100">ОТПРАВИТЬ ЗАЯВКУ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Подтверждение -->
+    <div id="confirm-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onclick="closeConfirmModal()"></div>
+        <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl p-8 text-center animate-in fade-in zoom-in duration-200">
+            <div class="w-16 h-16 bg-blue-50 text-[#1e40af] rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="help-circle" size="32"></i>
+            </div>
+            <h3 id="confirm-text" class="text-lg font-bold text-gray-900 mb-6">Вы уверены?</h3>
+            <div class="flex gap-3">
+                <button onclick="closeConfirmModal()" class="flex-1 py-3 rounded-xl text-[10px] font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 transition-all uppercase tracking-widest">ОТМЕНА</button>
+                <button id="confirm-btn" class="flex-1 py-3 rounded-xl text-[10px] font-bold text-white bg-[#1e40af] hover:bg-blue-800 transition-all uppercase tracking-widest shadow-lg shadow-blue-100">ПОДТВЕРДИТЬ</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-white border-t border-gray-100 py-10 px-6">
         <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -128,8 +169,82 @@
         </div>
     </footer>
 
+    <!-- Модальное окно: Авторизация -->
+    <div id="auth-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeAuthModal()"></div>
+        <div class="relative bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="bg-[#1e40af] p-8 text-white text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white/30">
+                    <i data-lucide="lock" size="32"></i>
+                </div>
+                <h3 class="text-2xl font-bold">Авторизация</h3>
+                <p class="text-xs text-blue-100 opacity-80 mt-1">Войдите в личный кабинет библиотеки</p>
+            </div>
+            <div class="p-8 space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Электронная почта</label>
+                    <input type="email" placeholder="example@mail.ru" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Пароль</label>
+                    <input type="password" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                </div>
+                <button onclick="window.location.href='profile.html'" class="w-full py-4 bg-[#1e40af] text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-blue-800 transition-all shadow-lg shadow-blue-100">ВОЙТИ</button>
+                <div class="text-center">
+                    <a href="#" class="text-[10px] font-bold text-gray-400 hover:text-[#1e40af] transition-colors uppercase tracking-widest">Забыли пароль?</a>
+                </div>
+                <div class="pt-4 border-t border-gray-100 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Нет аккаунта? <a href="#" class="text-[#1e40af] font-bold hover:underline">Зарегистрироваться</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         lucide.createIcons();
+
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function openLibraryCardModal() {
+            document.getElementById('library-card-modal').classList.remove('hidden');
+        }
+
+        function closeLibraryCardModal() {
+            document.getElementById('library-card-modal').classList.add('hidden');
+        }
+
+        function submitLibraryCard() {
+            const status = document.getElementById('library-card-status');
+            status.innerText = 'Билет №84291 (ОФОРМЛЕН)';
+            status.classList.remove('bg-white/20', 'hover:bg-white/30');
+            status.classList.add('bg-green-500/40');
+            status.onclick = null;
+            closeLibraryCardModal();
+        }
+
+        let currentConfirmCallback = null;
+
+        function confirmAction(text, callback) {
+            document.getElementById('confirm-text').innerText = text;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            currentConfirmCallback = callback;
+            
+            document.getElementById('confirm-btn').onclick = () => {
+                if (currentConfirmCallback) currentConfirmCallback();
+                closeConfirmModal();
+            };
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            currentConfirmCallback = null;
+        }
     </script>
 </body>
 </html>
