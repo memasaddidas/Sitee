@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Book, Calendar, User, MapPin, Phone, Mail, Facebook, Instagram, Twitter, ArrowRight, ChevronRight, Clock } from 'lucide-react';
+import { Search, Book, Calendar, User, MapPin, Phone, Mail, Send, Share2, ArrowRight, ChevronRight, Clock, ShoppingCart, Trash2, Users, Plus, Settings, History } from 'lucide-react';
 import { motion } from 'motion/react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
@@ -130,7 +130,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-const Navbar: React.FC<{ user: User | null; onAuthClick: () => void; onLogout: () => void }> = ({ user, onAuthClick, onLogout }) => (
+const Navbar: React.FC<{ user: User | null; cartCount: number; onAuthClick: () => void; onLogout: () => void }> = ({ user, cartCount, onAuthClick, onLogout }) => (
   <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
     <div className="max-w-full px-4 sm:px-6 lg:px-12">
       <div className="flex justify-between h-16 items-center">
@@ -148,6 +148,14 @@ const Navbar: React.FC<{ user: User | null; onAuthClick: () => void; onLogout: (
           <Link to="/about" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">О НАС</Link>
         </nav>
         <div className="flex items-center gap-4">
+          <Link to="/cart" className="relative p-2 text-gray-600 hover:text-brand-blue transition-colors">
+            <ShoppingCart size={22} />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
           {user ? (
             <div className="flex items-center gap-4">
               <Link to="/profile" className="flex items-center gap-2 text-xs font-bold text-brand-blue hover:underline">
@@ -176,6 +184,12 @@ const Navbar: React.FC<{ user: User | null; onAuthClick: () => void; onLogout: (
   </header>
 );
 
+const VKIcon = ({ size = 20 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M13.162 18.994c.609 0 .858-.406.858-.915v-2.217c0-.306.075-.456.258-.456.183 0 .483.15.975.645 1.074 1.08 1.488 1.515 2.493 1.515h2.133c.609 0 .916-.305.739-.9-.177-.595-1.162-1.635-1.635-2.133-.473-.498-.375-.675 0-1.275 0 0 1.59-2.235 1.755-3.015.09-.42-.09-.72-.69-.72h-2.133c-.51 0-.744.27-.87.57 0 0-1.08 2.64-2.61 4.35-.495.495-.72.645-.975.645-.128 0-.315-.15-.315-.585V10.134c0-.51-.147-.72-.57-.72h-3.345c-.315 0-.51.234-.51.456 0 .483.72.594.795 1.95v2.955c0 .645-.117.762-.372.762-.675 0-2.325-2.655-3.3-5.685-.195-.57-.39-.801-.9-.801H2.487c-.69 0-.825.324-.825.675 0 .63 1.185 3.735 3.9 7.53 2.58 3.6 6.21 5.535 9.51 5.535l.09-.015z" />
+  </svg>
+);
+
 const Footer = () => (
   <footer className="bg-gray-50 border-t border-gray-200 pt-16 pb-8 px-4">
     <div className="max-w-full lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
@@ -188,9 +202,8 @@ const Footer = () => (
           Официальный портал муниципальных библиотек города. Мы работаем для вас каждый день.
         </p>
         <div className="flex gap-4">
-          <a href="#" className="text-gray-400 hover:text-brand-blue transition-colors"><Facebook size={20} /></a>
-          <a href="#" className="text-gray-400 hover:text-brand-blue transition-colors"><Instagram size={20} /></a>
-          <a href="#" className="text-gray-400 hover:text-brand-blue transition-colors"><Twitter size={20} /></a>
+          <a href="https://t.me/your_tg" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-blue transition-colors" title="Telegram"><Send size={20} /></a>
+          <a href="https://vk.com/your_vk" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-blue transition-colors" title="VK"><VKIcon size={20} /></a>
         </div>
       </div>
       
@@ -203,11 +216,11 @@ const Footer = () => (
           </li>
           <li className="flex items-center gap-3">
             <Phone size={18} className="text-brand-blue shrink-0" />
-            <span>+7 (800) 555-35-35</span>
+            <span>+7 (800) 123-45-67</span>
           </li>
           <li className="flex items-center gap-3">
             <Mail size={18} className="text-brand-blue shrink-0" />
-            <span>info@citylib.ru</span>
+            <span>memassadidas@yandex.ru</span>
           </li>
         </ul>
       </div>
@@ -238,8 +251,7 @@ const Footer = () => (
 
 // --- Components ---
 
-const BookCard: React.FC<{ book: BookData; user: User | null; onAuthRequired: () => void }> = ({ book, user, onAuthRequired }) => {
-  const [isBooked, setIsBooked] = useState(false);
+const BookCard: React.FC<{ book: BookData; user: User | null; isInCart: boolean; onAddToCart: (book: BookData) => void; onAuthRequired: () => void }> = ({ book, user, isInCart, onAddToCart, onAuthRequired }) => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleBook = () => {
@@ -247,24 +259,26 @@ const BookCard: React.FC<{ book: BookData; user: User | null; onAuthRequired: ()
       onAuthRequired();
       return;
     }
-    setIsBooked(true);
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
+    if (!isInCart) {
+      onAddToCart(book);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
   };
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
       {showSuccess && (
         <div className="absolute inset-x-0 top-0 z-20 bg-green-600 text-white text-[10px] py-1 px-2 font-bold text-center">
-          Книга забронирована!
+          Книга добавлена в корзину!
         </div>
       )}
       <div className="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
         <img src={book.cover} alt={book.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" />
-        {(!book.available || isBooked) && (
+        {(!book.available || isInCart) && (
           <div className="absolute inset-0 bg-white/80 flex items-center justify-center p-4 text-center">
             <span className="text-xs font-bold text-gray-900 uppercase border-2 border-gray-900 px-2 py-1">
-              {isBooked ? 'ЗАБРОНИРОВАНО' : 'НЕТ В НАЛИЧИИ'}
+              {isInCart ? 'В КОРЗИНЕ' : 'НЕТ В НАЛИЧИИ'}
             </span>
           </div>
         )}
@@ -276,14 +290,14 @@ const BookCard: React.FC<{ book: BookData; user: User | null; onAuthRequired: ()
         <div className="mt-auto">
           <button 
             onClick={handleBook}
-            disabled={!book.available || isBooked} 
+            disabled={!book.available || isInCart} 
             className={`w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 ${
-              (book.available && !isBooked) 
+              (book.available && !isInCart) 
                 ? 'bg-brand-blue border-brand-blue text-white hover:bg-blue-800 shadow-lg shadow-blue-200' 
                 : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
-            {isBooked ? 'В КОРЗИНЕ' : book.available ? 'ЗАБРОНИРОВАТЬ' : 'В ОЧЕРЕДИ'}
+            {isInCart ? 'В КОРЗИНЕ' : book.available ? 'ЗАБРОНИРОВАТЬ' : 'В ОЧЕРЕДИ'}
           </button>
         </div>
       </div>
@@ -331,7 +345,7 @@ const EventCard: React.FC<{ event: EventData }> = ({ event }) => {
 
 // --- Pages ---
 
-const HomePage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({ user, onAuthRequired }) => (
+const HomePage: React.FC<{ user: User | null; cart: BookData[]; onAddToCart: (book: BookData) => void; onAuthRequired: () => void }> = ({ user, cart, onAddToCart, onAuthRequired }) => (
   <div className="animate-in fade-in duration-500">
     <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
       {/* Фоновое изображение */}
@@ -387,7 +401,14 @@ const HomePage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
         {BOOKS.slice(0, 8).map(book => (
-          <BookCard key={book.id} book={book} user={user} onAuthRequired={onAuthRequired} />
+          <BookCard 
+            key={book.id} 
+            book={book} 
+            user={user} 
+            isInCart={cart.some(b => b.id === book.id)}
+            onAddToCart={onAddToCart}
+            onAuthRequired={onAuthRequired} 
+          />
         ))}
       </div>
     </section>
@@ -410,7 +431,7 @@ const HomePage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({
   </div>
 );
 
-const CatalogPage: React.FC<{ user: User | null; onAuthRequired: () => void }> = ({ user, onAuthRequired }) => {
+const CatalogPage: React.FC<{ user: User | null; cart: BookData[]; onAddToCart: (book: BookData) => void; onAuthRequired: () => void }> = ({ user, cart, onAddToCart, onAuthRequired }) => {
   const [activeCategory, setActiveCategory] = useState('Все');
   const categories = ['Все', 'Классика', 'Роман', 'Антиутопия', 'Научпоп'];
   const filteredBooks = activeCategory === 'Все' ? BOOKS : BOOKS.filter(b => b.category === activeCategory);
@@ -438,8 +459,88 @@ const CatalogPage: React.FC<{ user: User | null; onAuthRequired: () => void }> =
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {filteredBooks.map(book => (
-          <BookCard key={book.id} book={book} user={user} onAuthRequired={onAuthRequired} />
+          <BookCard 
+            key={book.id} 
+            book={book} 
+            user={user} 
+            isInCart={cart.some(b => b.id === book.id)}
+            onAddToCart={onAddToCart}
+            onAuthRequired={onAuthRequired} 
+          />
         ))}
+      </div>
+    </div>
+  );
+};
+
+const CartPage: React.FC<{ cart: BookData[]; onRemoveFromCart: (id: number) => void; onCheckout: () => void }> = ({ cart, onRemoveFromCart, onCheckout }) => {
+  return (
+    <div className="py-12 px-4 max-w-full lg:px-12 min-h-[60vh] animate-in fade-in duration-500">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+          <ShoppingCart className="text-brand-blue" size={32} />
+          Корзина бронирования
+        </h1>
+        
+        {cart.length === 0 ? (
+          <div className="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
+            <Book className="mx-auto text-gray-300 mb-4" size={64} />
+            <p className="text-gray-500 mb-6 font-medium">В вашей корзине пока пусто</p>
+            <Link to="/catalog" className="inline-block px-8 py-3 bg-brand-blue text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-100">
+              Перейти в каталог
+            </Link>
+          </div>
+        ) : (
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              {cart.map(book => (
+                <div key={book.id} className="flex gap-6 p-6 bg-white border border-gray-100 rounded-3xl shadow-sm items-center hover:shadow-md transition-all">
+                  <img src={book.cover} className="w-20 h-28 object-cover rounded-xl shadow-md" alt={book.title} />
+                  <div className="flex-grow">
+                    <span className="text-[10px] font-bold text-brand-blue uppercase tracking-wider">{book.category}</span>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1 leading-tight">{book.title}</h3>
+                    <p className="text-sm text-gray-500">{book.author}</p>
+                  </div>
+                  <button 
+                    onClick={() => onRemoveFromCart(book.id)}
+                    className="p-3 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+              ))}
+            </div>
+            
+            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 h-fit sticky top-24">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Детали заказа</h2>
+              <div className="space-y-4 mb-8">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Книг к получению:</span>
+                  <span className="font-bold text-gray-900">{cart.length}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Срок брони:</span>
+                  <span className="font-bold text-gray-900">5 дней</span>
+                </div>
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-900 font-bold">Итого</span>
+                    <span className="text-brand-blue font-bold">Бесплатно</span>
+                  </div>
+                </div>
+              </div>
+              <button 
+                onClick={onCheckout}
+                className="w-full py-4 bg-brand-blue text-white rounded-2xl font-bold hover:bg-blue-800 transition-all shadow-xl shadow-blue-200 active:scale-95"
+              >
+                ПОДТВЕРДИТЬ БРОНЬ
+              </button>
+              <p className="mt-4 text-[10px] text-gray-400 text-center leading-relaxed">
+                Книги будут ждать вас в библиотеке по адресу: ул. Пушкина, 10. При себе необходимо иметь читательский билет.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -492,56 +593,85 @@ const ProfilePage: React.FC<{ user: User | null }> = ({ user }) => {
   if (!user) return <div className="py-20 text-center font-bold">Пожалуйста, войдите в систему</div>;
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-4 animate-in slide-in-from-bottom-4 duration-500">
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
-        <div className="bg-brand-blue p-8 text-white flex items-center gap-6">
-          <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/30">
-            <User size={40} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{user.name}</h1>
-            <p className="text-blue-100 opacity-80">{user.email}</p>
-            <div className="mt-2 inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-wider">
-              Читательский билет №84291
+    <div className="py-12 px-4 max-w-full lg:px-12 bg-gray-50 min-h-screen animate-in fade-in duration-500">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1 space-y-6">
+            <div className="bg-brand-blue text-white p-8 rounded-3xl shadow-xl">
+              <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-white/30">
+                <User size={40} />
+              </div>
+              <h1 className="text-2xl font-bold mb-1">{user.name}</h1>
+              <p className="text-blue-100 opacity-80 text-sm mb-4">{user.email}</p>
+              <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                №84291
+              </div>
             </div>
+            
+            <nav className="bg-white rounded-3xl p-4 shadow-sm border border-gray-100">
+              <button className="w-full flex items-center gap-3 p-4 text-brand-blue bg-blue-50 rounded-2xl font-bold text-sm">
+                <Book size={18} /> Мои книги
+              </button>
+              <button className="w-full flex items-center gap-3 p-4 text-gray-500 hover:bg-gray-50 rounded-2xl font-bold text-sm transition-all">
+                <History size={18} /> История
+              </button>
+              <button className="w-full flex items-center gap-3 p-4 text-gray-500 hover:bg-gray-50 rounded-2xl font-bold text-sm transition-all">
+                <Users size={18} /> Профили семьи
+              </button>
+              <button className="w-full flex items-center gap-3 p-4 text-gray-500 hover:bg-gray-50 rounded-2xl font-bold text-sm transition-all">
+                <Settings size={18} /> Настройки
+              </button>
+            </nav>
           </div>
-        </div>
-        
-        <div className="p-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2">
-              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Book className="text-brand-blue" size={20} />
-                Мои бронирования
+
+          {/* Main Content */}
+          <div className="lg:col-span-3 space-y-8">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                <Book className="text-brand-blue" size={24} />
+                Активные бронирования
               </h2>
-              <div className="space-y-4">
-                {/* Болванка списка книг */}
+              <div className="grid md:grid-cols-2 gap-4">
                 {[BOOKS[0], BOOKS[1]].map(book => (
-                  <div key={book.id} className="flex gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100 items-center">
-                    <img src={book.cover} className="w-12 h-16 object-cover rounded-lg shadow-sm" alt="" />
+                  <div key={book.id} className="flex gap-4 p-5 rounded-2xl bg-gray-50 border border-gray-100 items-center">
+                    <img src={book.cover} className="w-14 h-20 object-cover rounded-xl shadow-sm" alt="" />
                     <div className="flex-grow">
                       <h3 className="text-sm font-bold text-gray-900">{book.title}</h3>
-                      <p className="text-xs text-gray-500">{book.author}</p>
+                      <p className="text-xs text-gray-500 mb-2">{book.author}</p>
+                      <span className="text-[9px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full uppercase">ГОТОВА К ВЫДАЧЕ</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">ГОТОВА К ВЫДАЧЕ</span>
-                      <p className="text-[9px] text-gray-400 mt-1">До 24.03.2026</p>
+                      <p className="text-[9px] text-gray-400">До 24.03</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            
-            <div>
-              <h2 className="text-lg font-bold text-gray-900 mb-6">Статистика</h2>
-              <div className="space-y-4">
-                <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100">
-                  <div className="text-2xl font-bold text-brand-blue">12</div>
-                  <div className="text-[10px] font-bold text-blue-400 uppercase">Прочитано книг</div>
+
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+                  <Users className="text-brand-blue" size={24} />
+                  Связанные профили
+                </h2>
+                <button className="flex items-center gap-2 text-xs font-bold text-brand-blue hover:underline">
+                  <Plus size={14} /> Добавить
+                </button>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="p-6 rounded-3xl border-2 border-dashed border-gray-100 flex flex-col items-center justify-center text-center group hover:border-brand-blue transition-all cursor-pointer">
+                  <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mb-4 text-gray-400 group-hover:bg-blue-50 group-hover:text-brand-blue transition-all">
+                    <Plus size={24} />
+                  </div>
+                  <p className="text-xs font-bold text-gray-400 group-hover:text-brand-blue">Детский билет</p>
                 </div>
-                <div className="p-4 rounded-2xl bg-orange-50 border border-orange-100">
-                  <div className="text-2xl font-bold text-orange-600">2</div>
-                  <div className="text-[10px] font-bold text-orange-400 uppercase">Активных брони</div>
+                <div className="p-6 rounded-3xl bg-gray-50 border border-transparent flex flex-col items-center text-center">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-4 text-brand-blue shadow-sm">
+                    <User size={24} />
+                  </div>
+                  <p className="text-xs font-bold text-gray-900">Мария (Дочь)</p>
+                  <p className="text-[10px] text-gray-500 mt-1">№84292</p>
                 </div>
               </div>
             </div>
@@ -554,7 +684,23 @@ const ProfilePage: React.FC<{ user: User | null }> = ({ user }) => {
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [cart, setCart] = useState<BookData[]>([]);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  const addToCart = (book: BookData) => {
+    if (!cart.find(b => b.id === book.id)) {
+      setCart([...cart, book]);
+    }
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart(cart.filter(b => b.id !== id));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    alert('Бронирование успешно подтверждено! Книги будут ждать вас в библиотеке.');
+  };
 
   return (
     <Router>
@@ -562,6 +708,7 @@ export default function App() {
       <div className="min-h-screen bg-white">
         <Navbar 
           user={user} 
+          cartCount={cart.length}
           onAuthClick={() => setIsAuthModalOpen(true)} 
           onLogout={() => setUser(null)}
         />
@@ -572,8 +719,9 @@ export default function App() {
         />
         <main>
           <Routes>
-            <Route path="/" element={<HomePage user={user} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
-            <Route path="/catalog" element={<CatalogPage user={user} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
+            <Route path="/" element={<HomePage user={user} cart={cart} onAddToCart={addToCart} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
+            <Route path="/catalog" element={<CatalogPage user={user} cart={cart} onAddToCart={addToCart} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
+            <Route path="/cart" element={<CartPage cart={cart} onRemoveFromCart={removeFromCart} onCheckout={clearCart} />} />
             <Route path="/profile" element={<ProfilePage user={user} />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/about" element={<AboutPage />} />
