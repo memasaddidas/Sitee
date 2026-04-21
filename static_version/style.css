@@ -185,7 +185,7 @@ a {
     display: flex;
     flex-direction: column;
     transition: box-shadow 0.3s;
-    height: 100%;
+    min-width: 0;
 }
 
 .product-card:hover {
@@ -195,12 +195,10 @@ a {
 .product-image-container {
     background-color: #fefce8;
     border-radius: 16px;
-    /* Remove padding since we'll handle inner spacing with absolute layout */
     position: relative;
     margin-bottom: 16px;
-    aspect-ratio: 3 / 4;
     width: 100%;
-    display: block;
+    padding-bottom: 133.33%; /* 3:4 aspect ratio perfectly held */
     flex-shrink: 0;
     overflow: hidden;
 }
@@ -239,6 +237,7 @@ a {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    min-width: 0;
 }
 
 .product-category {
@@ -248,6 +247,9 @@ a {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-title {
@@ -258,6 +260,7 @@ a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .product-author {
@@ -267,6 +270,7 @@ a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .buy-btn {
