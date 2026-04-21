@@ -4,290 +4,234 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог — Городская Библиотека</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .catalog-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        .catalog-header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 20px;
+        }
+        .catalog-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid #e5e7eb;
+            background-color: white;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .filter-btn:hover {
+            border-color: #1c3a93;
+            color: #1c3a93;
+        }
+        .filter-btn.active {
+            background-color: #1c3a93;
+            border-color: #1c3a93;
+            color: white;
+        }
+        
     </style>
 </head>
-<body class="bg-white min-h-screen flex flex-col">
-    <nav class="border-b border-gray-100 py-4 px-6 bg-white sticky top-0 z-50">
-        <div class="max-w-full lg:px-12 mx-auto flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-3">
-                <i data-lucide="book" class="text-[#1c3a93]" style="width: 32px; height: 32px;"></i>
-                <div class="flex flex-col">
-                    <span class="text-xl font-bold leading-none text-[#1c3a93]">БИБЛИОТЕКА</span>
-                    <span class="text-xs font-medium leading-none text-[#1c3a93] uppercase tracking-wider">Г. ЕКАТЕРИНБУРГ</span>
-                </div>
-            </a>
-            <div class="hidden md:flex gap-8 text-[13px] font-bold text-gray-500 uppercase tracking-wide">
-                <a href="index.html" class="hover:text-[#1c3a93] transition-colors">Главная</a>
-                <a href="catalog.html" class="text-[#1c3a93]">Каталог</a>
-                <a href="news.html" class="hover:text-[#1c3a93] transition-colors">Новости</a>
-                <a href="about.html" class="hover:text-[#1c3a93] transition-colors">О нас</a>
-                <a href="cart.html" class="hover:text-[#1c3a93] transition-colors">Список книг</a>
-            </div>
-            <div class="flex items-center gap-6 text-gray-500">
-                <a href="cart.html" class="relative hover:text-[#1c3a93] transition-colors">
-                    <i data-lucide="star" style="width: 28px; height: 28px; stroke-width: 1.5;"></i>
-                    <span class="absolute -top-1 -right-1 bg-[#1c3a93] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+<body>
+    <div class="wrapper">
+        <!-- Навигация -->
+        <header class="header">
+            <div class="header-container">
+                <a href="index.html" class="logo-section">
+                    <i data-lucide="book" style="width: 32px; height: 32px; color: #1c3a93;"></i>
+                    <div class="logo-text">
+                        <span class="logo-title">БИБЛИОТЕКА</span>
+                        <span class="logo-subtitle">Г. ЕКАТЕРИНБУРГ</span>
+                    </div>
                 </a>
-                <a href="profile.html" class="hover:text-[#1c3a93] transition-colors">
-                    <i data-lucide="user" style="width: 28px; height: 28px; stroke-width: 1.5;"></i>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="flex-grow py-8 px-4 max-w-full lg:px-12 mx-auto">
-        <div class="border-b border-gray-200 pb-6 mb-8">
-            <h1 class="text-2xl font-bold text-gray-900 mb-3">Электронный каталог</h1>
-            <div class="flex flex-wrap gap-1.5">
-                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-[#1e40af] border-[#1e40af] text-white shadow-sm">ВСЕ</button>
-                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-white border-gray-200 text-gray-500 hover:border-[#1e40af] hover:text-[#1e40af]">КЛАССИКА</button>
-                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-white border-gray-200 text-gray-500 hover:border-[#1e40af] hover:text-[#1e40af]">ФАНТАСТИКА</button>
-                <button class="px-3 py-1 rounded text-[10px] font-bold transition-all border bg-white border-gray-200 text-gray-500 hover:border-[#1e40af] hover:text-[#1e40af]">НАУЧПОП</button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            <!-- Книги -->
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/dostoevsky/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Классика</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Преступление и наказание</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Ф. Достоевский</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/1984/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Антиутопия</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">1984</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Дж. Оруэлл</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/bulgakov/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Классика</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Мастер и Маргарита</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">М. Булгаков</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/algernon/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Фантастика</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Цветы для Элджернона</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Д. Киз</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/dorian/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Классика</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Портрет Дориана Грея</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">О. Уайльд</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/fahrenheit/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Антиутопия</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">451 градус по Фаренгейту</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Р. Брэдбери</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/remarque/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Классика</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Три товарища</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Э. М. Ремарк</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 group relative">
-                <div class="aspect-[3/4] relative overflow-hidden bg-gray-100 m-3 rounded-xl">
-                    <img src="https://picsum.photos/seed/gatsby/300/450" alt="Книга" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                    <span class="text-[9px] font-bold text-[#1e40af] uppercase mb-1 tracking-widest">Классика</span>
-                    <h3 class="text-xs font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">Великий Гэтсби</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Ф. С. Фицджеральд</p>
-                    <button onclick="bookItem(this)" class="mt-auto w-full py-2.5 rounded-xl text-[10px] font-bold transition-all border-2 bg-[#1e40af] border-[#1e40af] text-white hover:bg-blue-800 shadow-lg shadow-blue-100">ЗАБРОНИРОВАТЬ</button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="bg-white border-t border-gray-200 py-12 px-6 mt-12">
-        <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <i data-lucide="book" class="text-[#1c3a93]" style="width: 28px; height: 28px;"></i>
-                    <span class="text-lg font-bold text-[#1c3a93] uppercase tracking-wide">БИБЛИОТЕКА Г. ЕКАТЕРИНБУРГ</span>
-                </div>
-                <p class="text-[13px] text-gray-500 max-w-sm mb-6 leading-relaxed pe-8">Главная городская библиотека — ваш надежный проводник в мире литературы и знаний с 1964 года.</p>
-                <div class="flex gap-4 items-center">
-                    <a href="#" class="text-gray-400 hover:text-[#1c3a93] transition-colors"><i data-lucide="send" size="24" stroke-width="1.5"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-[#1c3a93] transition-colors">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.162 18.994c.609 0 .858-.406.858-.915v-2.217c0-.306.075-.456.258-.456.183 0 .483.15.975.645 1.074 1.08 1.488 1.515 2.493 1.515h2.133c.609 0 .916-.305.739-.9-.177-.595-1.162-1.635-1.635-2.133-.473-.498-.375-.675 0-1.275 0 0 1.59-2.235 1.755-3.015.09-.42-.09-.72-.69-.72h-2.133c-.51 0-.744.27-.87.57 0 0-1.08 2.64-2.61 4.35-.495.495-.72.645-.975.645-.128 0-.315-.15-.315-.585V10.134c0-.51-.147-.72-.57-.72h-3.345c-.315 0-.51.234-.51.456 0 .483.72.594.795 1.95v2.955c0 .645-.117.762-.372.762-.675 0-2.325-2.655-3.3-5.685-.195-.57-.39-.801-.9-.801H2.487c-.69 0-.825.324-.825.675 0 .63 1.185 3.735 3.9 7.53 2.58 3.6 6.21 5.535 9.51 5.535l.09-.015z"></path></svg>
+                
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-item">Главная</a>
+                    <a href="catalog.html" class="nav-item active">Каталог</a>
+                    <a href="news.html" class="nav-item">Новости</a>
+                    <a href="about.html" class="nav-item">О нас</a>
+                    <a href="cart.html" class="nav-item">Список книг</a>
+                </nav>
+                
+                <div class="user-actions">
+                    <a href="cart.html" class="cart-icon-wrapper">
+                        <i data-lucide="star" style="width: 28px; height: 28px; stroke-width: 1.5;"></i>
+                        <span class="cart-badge">2</span>
+                    </a>
+                    <a href="profile.html" class="profile-link">
+                        <i data-lucide="user" style="width: 28px; height: 28px; stroke-width: 1.5;"></i>
                     </a>
                 </div>
             </div>
-            <div>
-                <h4 class="font-bold text-gray-900 mb-6 uppercase text-[15px] tracking-widest">ИНФОРМАЦИЯ</h4>
-                <ul class="space-y-4 text-gray-500 text-[14px]">
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="phone" size="20" stroke-width="1.5" class="shrink-0"></i>
-                        <span>+7 (800) 123-45-67</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="map-pin" size="20" stroke-width="1.5" class="shrink-0"></i>
-                        <span>Г. Екатеринбург, ул. Победы, 17</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="mail" size="20" stroke-width="1.5" class="shrink-0"></i>
-                        <span>contact@ekb-library.ru</span>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-gray-900 mb-6 uppercase text-[15px] tracking-wide">РЕЖИМ РАБОТЫ</h4>
-                <ul class="space-y-2 text-gray-500 text-[14px]">
-                    <li class="flex items-center gap-2">
-                        <span>Пн-Пт: 09:00 — 20:00</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span>Сб-Вс: 10:00 — 18:00</span>
-                    </li>
-                    <li class="pt-3 flex items-center gap-2 text-[#1c3a93] italic">
-                        <span>Последняя пятница — санитарный день</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto pt-8 border-t border-gray-100 text-center text-[13px] text-gray-400">
-            © 2026 Муниципальное бюджетное учреждение культуры «Городская библиотека».
-        </div>
-    </footer>
+        </header>
 
-    <!-- Модальное окно: Бронирование -->
-    <div id="booking-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBookingModal()"></div>
-        <div class="relative bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-            <div class="bg-[#1e40af] p-8 text-white text-center">
-                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white/30">
-                    <i id="modal-icon" data-lucide="book" size="32"></i>
+        <main class="main-content">
+            <div class="catalog-container">
+                <div class="catalog-header">
+                    <h1 class="catalog-title">Электронный каталог</h1>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active">ВСЕ</button>
+                        <button class="filter-btn">КЛАССИКА</button>
+                        <button class="filter-btn">ФАНТАСТИКА</button>
+                        <button class="filter-btn">НАУЧПОП</button>
+                    </div>
                 </div>
-                <h3 id="modal-title" class="text-2xl font-bold">Бронирование</h3>
-                <p id="modal-subtitle" class="text-xs text-blue-100 opacity-80 mt-1">Оставьте ваши данные для связи</p>
+
+                <div class="products-grid">
+                    <!-- Карточка 1 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://picsum.photos/seed/dostoevsky/300/450" alt="Книга" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Классика</span>
+                            <h3 class="product-title">Преступление и наказание</h3>
+                            <p class="product-author">Ф. Достоевский</p>
+                            <button onclick="bookItem(this)" class="buy-btn">ЗАБРОНИРОВАТЬ</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 2 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://picsum.photos/seed/1984/300/450" alt="Книга" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Антиутопия</span>
+                            <h3 class="product-title">1984</h3>
+                            <p class="product-author">Дж. Оруэлл</p>
+                            <button onclick="bookItem(this)" class="buy-btn">ЗАБРОНИРОВАТЬ</button>
+                        </div>
+                    </div>
+
+                    <!-- Карточка 3 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://picsum.photos/seed/bulgakov/300/450" alt="Книга" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Классика</span>
+                            <h3 class="product-title">Мастер и Маргарита</h3>
+                            <p class="product-author">М. Булгаков</p>
+                            <button onclick="bookItem(this)" class="buy-btn">ЗАБРОНИРОВАТЬ</button>
+                        </div>
+                    </div>
+
+                    <!-- Карточка 4 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://picsum.photos/seed/algernon/300/450" alt="Книга" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Фантастика</span>
+                            <h3 class="product-title">Цветы для Элджернона</h3>
+                            <p class="product-author">Д. Киз</p>
+                            <button onclick="bookItem(this)" class="buy-btn">ЗАБРОНИРОВАТЬ</button>
+                        </div>
+                    </div>
+
+                    <!-- Карточка 5 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://picsum.photos/seed/hawk/300/450" alt="Книга" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Научпоп</span>
+                            <h3 class="product-title">Краткая история времени</h3>
+                            <p class="product-author">Стивен Хокинг</p>
+                            <button onclick="bookItem(this)" class="buy-btn">ЗАБРОНИРОВАТЬ</button>
+                        </div>
+                    </div>
+
+                    <!-- Карточка 6 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://picsum.photos/seed/sapiens/300/450" alt="Книга" class="product-img">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Научпоп</span>
+                            <h3 class="product-title">Sapiens</h3>
+                            <p class="product-author">Ю. Харари</p>
+                            <button onclick="bookItem(this)" class="buy-btn">ЗАБРОНИРОВАТЬ</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <form id="booking-form" class="p-8 space-y-4" onsubmit="handleBookingSubmit(event)">
-                <input type="hidden" id="target-item-name">
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Ваше имя</label>
-                    <input type="text" id="user-name" required placeholder="Иван Иванов" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+        </main>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i data-lucide="book" style="width: 28px; height: 28px; color: #1c3a93;"></i>
+                        <span class="footer-logo-text">БИБЛИОТЕКА Г. ЕКАТЕРИНБУРГ</span>
+                    </div>
+                    <p class="footer-desc">Главная городская библиотека — ваш надежный проводник в мире литературы и знаний с 1964 года.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="Telegram"><i data-lucide="send"></i></a>
+                        <a href="#" class="social-icon" title="VK">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.162 18.994c.609 0 .858-.406.858-.915v-2.217c0-.306.075-.456.258-.456.183 0 .483.15.975.645 1.074 1.08 1.488 1.515 2.493 1.515h2.133c.609 0 .916-.305.739-.9-.177-.595-1.162-1.635-1.635-2.133-.473-.498-.375-.675 0-1.275 0 0 1.59-2.235 1.755-3.015.09-.42-.09-.72-.69-.72h-2.133c-.51 0-.744.27-.87.57 0 0-1.08 2.64-2.61 4.35-.495.495-.72.645-.975.645-.128 0-.315-.15-.315-.585V10.134c0-.51-.147-.72-.57-.72h-3.345c-.315 0-.51.234-.51.456 0 .483.72.594.795 1.95v2.955c0 .645-.117.762-.372.762-.675 0-2.325-2.655-3.3-5.685-.195-.57-.39-.801-.9-.801H2.487c-.69 0-.825.324-.825.675 0 .63 1.185 3.735 3.9 7.53 2.58 3.6 6.21 5.535 9.51 5.535l.09-.015z"></path></svg>
+                        </a>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Телефон</label>
-                    <input type="tel" id="user-phone" required placeholder="+7 (999) 000-00-00" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">ИНФОРМАЦИЯ</h4>
+                    <ul class="footer-list">
+                        <li class="footer-list-item">
+                            <i data-lucide="phone" size="20"></i>
+                            <span>+7 (800) 123-45-67</span>
+                        </li>
+                        <li class="footer-list-item">
+                            <i data-lucide="map-pin" size="20"></i>
+                            <span>Г. Екатеринбург, ул. Победы, 17</span>
+                        </li>
+                        <li class="footer-list-item">
+                            <i data-lucide="mail" size="20"></i>
+                            <span>contact@ekb-library.ru</span>
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Электронная почта</label>
-                    <input type="email" id="user-email" required placeholder="example@mail.ru" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 outline-none focus:ring-2 ring-blue-500/20 transition-all text-sm">
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">РЕЖИМ РАБОТЫ</h4>
+                    <div class="footer-work-hours">Пн-Пт: 09:00 — 20:00</div>
+                    <div class="footer-work-hours">Сб-Вс: 10:00 — 18:00</div>
+                    <div class="footer-notice">Последняя пятница — санитарный день</div>
                 </div>
-                <button type="submit" class="w-full py-4 bg-[#1e40af] text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-blue-800 transition-all shadow-lg shadow-blue-100">ОТПРАВИТЬ ЗАЯВКУ</button>
-                <p class="text-[9px] text-gray-400 text-center leading-tight">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
-            </form>
-        </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 Муниципальное бюджетное учреждение культуры «Городская библиотека».
+            </div>
+        </footer>
     </div>
-
-    <!-- Модальное окно: Успех -->
-    <div id="success-modal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onclick="closeSuccessModal()"></div>
-        <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl p-8 text-center animate-in fade-in zoom-in duration-200">
-            <div class="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i data-lucide="check-circle" size="32"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Заявка принята!</h3>
-            <p class="text-sm text-gray-500 mb-6">Мы свяжемся с вами в ближайшее время для подтверждения.</p>
-            <button onclick="closeSuccessModal()" class="w-full py-3 rounded-xl text-[10px] font-bold text-white bg-green-600 hover:bg-green-700 transition-all uppercase tracking-widest shadow-lg shadow-green-100">ОТЛИЧНО</button>
-        </div>
-    </div>
-
+    
     <script>
         lucide.createIcons();
-        
-        let currentTargetBtn = null;
-
-        function openBookingModal(title, subtitle, icon, itemName, btn) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-subtitle').innerText = subtitle;
-            document.getElementById('target-item-name').value = itemName;
-            currentTargetBtn = btn;
-            
-            const iconEl = document.getElementById('modal-icon');
-            iconEl.setAttribute('data-lucide', icon);
-            lucide.createIcons();
-            
-            document.getElementById('booking-modal').classList.remove('hidden');
-        }
-
-        function closeBookingModal() {
-            document.getElementById('booking-modal').classList.add('hidden');
-        }
-
-        function handleBookingSubmit(e) {
-            e.preventDefault();
-            const itemName = document.getElementById('target-item-name').value;
-            const name = document.getElementById('user-name').value;
-            
-            console.log(`Заявка от ${name} на ${itemName}`);
-            
-            closeBookingModal();
-            document.getElementById('success-modal').classList.remove('hidden');
-            
-            if (currentTargetBtn) {
-                currentTargetBtn.innerText = 'ЗАЯВКА ОТПРАВЛЕНА';
-                currentTargetBtn.classList.remove('bg-[#1e40af]', 'hover:bg-blue-800');
-                currentTargetBtn.classList.add('bg-gray-100', 'text-gray-400', 'border-gray-200', 'cursor-not-allowed');
-                currentTargetBtn.disabled = true;
-            }
-            
-            document.getElementById('booking-form').reset();
-        }
-
-        function closeSuccessModal() {
-            document.getElementById('success-modal').classList.add('hidden');
-        }
-
         function bookItem(btn) {
-            const bookTitle = btn.closest('.p-4').querySelector('h3').innerText;
-            openBookingModal('Бронирование книги', `Бронирование: ${bookTitle}`, 'book', bookTitle, btn);
+            btn.innerText = "ЗАЯВКА ОТПРАВЛЕНА";
+            btn.style.backgroundColor = "#e5e7eb";
+            btn.style.color = "#9ca3af";
         }
     </script>
 </body>
