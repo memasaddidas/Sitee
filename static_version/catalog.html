@@ -13,28 +13,27 @@
 <body class="bg-white min-h-screen flex flex-col">
     <nav class="border-b border-gray-100 py-4 px-6 bg-white sticky top-0 z-50">
         <div class="max-w-full lg:px-12 mx-auto flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2 text-[#1e40af] font-bold text-xl">
-                <i data-lucide="book"></i>
+            <a href="index.html" class="flex items-center gap-3">
+                <i data-lucide="book" class="text-[#1c3a93]" style="width: 32px; height: 32px;"></i>
                 <div class="flex flex-col">
-                    <span class="text-lg font-bold leading-none">БИБЛИОТЕКА</span>
-                    <span class="text-[10px] font-medium leading-none text-gray-500 uppercase tracking-tighter">Г. ОБНИНСК</span>
+                    <span class="text-xl font-bold leading-none text-[#1c3a93]">БИБЛИОТЕКА</span>
+                    <span class="text-xs font-medium leading-none text-[#1c3a93] uppercase tracking-wider">Г. ЕКАТЕРИНБУРГ</span>
                 </div>
             </a>
-            <div class="hidden md:flex gap-8 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
-                <a href="index.html" class="hover:text-[#1e40af] transition-colors">Главная</a>
-                <a href="catalog.html" class="text-[#1e40af]">Каталог</a>
-                <a href="news.html" class="hover:text-[#1e40af] transition-colors">Новости</a>
-                <a href="events.html" class="hover:text-[#1e40af] transition-colors">События</a>
-                <a href="about.html" class="hover:text-[#1e40af] transition-colors">О нас</a>
+            <div class="hidden md:flex gap-8 text-[13px] font-bold text-gray-500 uppercase tracking-wide">
+                <a href="index.html" class="hover:text-[#1c3a93] transition-colors">Главная</a>
+                <a href="catalog.html" class="text-[#1c3a93]">Каталог</a>
+                <a href="news.html" class="hover:text-[#1c3a93] transition-colors">Новости</a>
+                <a href="about.html" class="hover:text-[#1c3a93] transition-colors">О нас</a>
+                <a href="cart.html" class="hover:text-[#1c3a93] transition-colors">Список книг</a>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="cart.html" class="relative p-2 text-gray-600 hover:text-[#1e40af] transition-colors">
-                    <i data-lucide="shopping-cart" size="22"></i>
-                    <span class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+            <div class="flex items-center gap-6 text-gray-500">
+                <a href="cart.html" class="relative hover:text-[#1c3a93] transition-colors">
+                    <i data-lucide="star" style="width: 28px; height: 28px; stroke-width: 1.5;"></i>
+                    <span class="absolute -top-1 -right-1 bg-[#1c3a93] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
                 </a>
-                <a href="profile.html" class="flex items-center gap-2 text-[10px] font-bold text-gray-600 hover:text-[#1e40af] transition-colors">
-                    <i data-lucide="user" size="20"></i>
-                    <span>ПРОФИЛЬ</span>
+                <a href="profile.html" class="hover:text-[#1c3a93] transition-colors">
+                    <i data-lucide="user" style="width: 28px; height: 28px; stroke-width: 1.5;"></i>
                 </a>
             </div>
         </div>
@@ -144,59 +143,54 @@
         </div>
     </main>
 
-    <footer class="bg-gray-50 border-t border-gray-200 pt-16 pb-8 px-6">
-        <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-3 mb-6">
-                    <i data-lucide="book" class="text-[#1e40af]" size="28"></i>
-                    <span class="text-xl font-bold text-[#1e40af]">БИБЛИОТЕКА Г. ОБНИНСК</span>
+    <footer class="bg-white border-t border-gray-200 py-12 px-6 mt-12">
+        <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <i data-lucide="book" class="text-[#1c3a93]" style="width: 28px; height: 28px;"></i>
+                    <span class="text-lg font-bold text-[#1c3a93] uppercase tracking-wide">БИБЛИОТЕКА Г. ЕКАТЕРИНБУРГ</span>
                 </div>
-                <p class="text-gray-500 max-w-sm mb-6">Официальный портал муниципальных библиотек города. Мы работаем для вас каждый день.</p>
-                <div class="flex gap-4">
-                    <a href="https://t.me/your_tg" target="_blank" class="text-gray-400 hover:text-[#1e40af] transition-colors" title="Telegram"><i data-lucide="send" size="20"></i></a>
-                    <a href="https://vk.com/your_vk" target="_blank" class="text-gray-400 hover:text-[#1e40af] transition-colors" title="VK">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle;">
-                            <path d="M13.162 18.994c.609 0 .858-.406.858-.915v-2.217c0-.306.075-.456.258-.456.183 0 .483.15.975.645 1.074 1.08 1.488 1.515 2.493 1.515h2.133c.609 0 .916-.305.739-.9-.177-.595-1.162-1.635-1.635-2.133-.473-.498-.375-.675 0-1.275 0 0 1.59-2.235 1.755-3.015.09-.42-.09-.72-.69-.72h-2.133c-.51 0-.744.27-.87.57 0 0-1.08 2.64-2.61 4.35-.495.495-.72.645-.975.645-.128 0-.315-.15-.315-.585V10.134c0-.51-.147-.72-.57-.72h-3.345c-.315 0-.51.234-.51.456 0 .483.72.594.795 1.95v2.955c0 .645-.117.762-.372.762-.675 0-2.325-2.655-3.3-5.685-.195-.57-.39-.801-.9-.801H2.487c-.69 0-.825.324-.825.675 0 .63 1.185 3.735 3.9 7.53 2.58 3.6 6.21 5.535 9.51 5.535l.09-.015z"></path>
-                        </svg>
+                <p class="text-[13px] text-gray-500 max-w-sm mb-6 leading-relaxed pe-8">Главная городская библиотека — ваш надежный проводник в мире литературы и знаний с 1964 года.</p>
+                <div class="flex gap-4 items-center">
+                    <a href="#" class="text-gray-400 hover:text-[#1c3a93] transition-colors"><i data-lucide="send" size="24" stroke-width="1.5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-[#1c3a93] transition-colors">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.162 18.994c.609 0 .858-.406.858-.915v-2.217c0-.306.075-.456.258-.456.183 0 .483.15.975.645 1.074 1.08 1.488 1.515 2.493 1.515h2.133c.609 0 .916-.305.739-.9-.177-.595-1.162-1.635-1.635-2.133-.473-.498-.375-.675 0-1.275 0 0 1.59-2.235 1.755-3.015.09-.42-.09-.72-.69-.72h-2.133c-.51 0-.744.27-.87.57 0 0-1.08 2.64-2.61 4.35-.495.495-.72.645-.975.645-.128 0-.315-.15-.315-.585V10.134c0-.51-.147-.72-.57-.72h-3.345c-.315 0-.51.234-.51.456 0 .483.72.594.795 1.95v2.955c0 .645-.117.762-.372.762-.675 0-2.325-2.655-3.3-5.685-.195-.57-.39-.801-.9-.801H2.487c-.69 0-.825.324-.825.675 0 .63 1.185 3.735 3.9 7.53 2.58 3.6 6.21 5.535 9.51 5.535l.09-.015z"></path></svg>
                     </a>
                 </div>
             </div>
             <div>
-                <h4 class="font-bold text-gray-900 mb-6 uppercase text-xs tracking-widest">Информация</h4>
-                <ul class="space-y-4 text-gray-500 text-sm">
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="map-pin" size="18" class="text-[#1e40af] shrink-0"></i>
-                        <span>ул. Пушкина, д. 10, Центральный район</span>
-                    </li>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase text-[15px] tracking-widest">ИНФОРМАЦИЯ</h4>
+                <ul class="space-y-4 text-gray-500 text-[14px]">
                     <li class="flex items-center gap-3">
-                        <i data-lucide="phone" size="18" class="text-[#1e40af] shrink-0"></i>
+                        <i data-lucide="phone" size="20" stroke-width="1.5" class="shrink-0"></i>
                         <span>+7 (800) 123-45-67</span>
                     </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="map-pin" size="20" stroke-width="1.5" class="shrink-0"></i>
+                        <span>Г. Екатеринбург, ул. Победы, 17</span>
+                    </li>
                     <li class="flex items-center gap-3">
-                        <i data-lucide="mail" size="18" class="text-[#1e40af] shrink-0"></i>
-                        <span>memassadidas@yandex.ru</span>
+                        <i data-lucide="mail" size="20" stroke-width="1.5" class="shrink-0"></i>
+                        <span>contact@ekb-library.ru</span>
                     </li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold text-gray-900 mb-6 uppercase text-xs tracking-widest">Режим работы</h4>
-                <ul class="space-y-2 text-gray-500 text-sm">
-                    <li class="flex justify-between">
-                        <span>Будни</span>
-                        <span class="font-medium">09:00 - 21:00</span>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase text-[15px] tracking-wide">РЕЖИМ РАБОТЫ</h4>
+                <ul class="space-y-2 text-gray-500 text-[14px]">
+                    <li class="flex items-center gap-2">
+                        <span>Пн-Пт: 09:00 — 20:00</span>
                     </li>
-                    <li class="flex justify-between">
-                        <span>Выходные</span>
-                        <span class="font-medium">10:00 - 19:00</span>
+                    <li class="flex items-center gap-2">
+                        <span>Сб-Вс: 10:00 — 18:00</span>
                     </li>
-                    <li class="pt-4 flex items-center gap-2 text-[#1e40af] text-xs italic">
-                        <i data-lucide="clock" size="14"></i>
+                    <li class="pt-3 flex items-center gap-2 text-[#1c3a93] italic">
                         <span>Последняя пятница — санитарный день</span>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="max-w-full lg:px-12 pt-8 border-t border-gray-200 text-center text-xs text-gray-400">
+        <div class="max-w-7xl mx-auto pt-8 border-t border-gray-100 text-center text-[13px] text-gray-400">
             © 2026 Муниципальное бюджетное учреждение культуры «Городская библиотека».
         </div>
     </footer>
