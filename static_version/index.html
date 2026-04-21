@@ -24,6 +24,7 @@
             <div class="hidden md:flex gap-8 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
                 <a href="index.html" class="text-[#1e40af]">Главная</a>
                 <a href="catalog.html" class="hover:text-[#1e40af] transition-colors">Каталог</a>
+                <a href="news.html" class="hover:text-[#1e40af] transition-colors">Новости</a>
                 <a href="events.html" class="hover:text-[#1e40af] transition-colors">События</a>
                 <a href="about.html" class="hover:text-[#1e40af] transition-colors">О нас</a>
             </div>
@@ -162,16 +163,55 @@
             </div>
         </section>
 
-        <!-- События -->
+        <!-- Новости -->
         <section class="bg-gray-50 py-10 px-4 border-y border-gray-200">
             <div class="max-w-full lg:px-12 mx-auto">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 uppercase tracking-tight">Ближайшие события</h2>
-                    <a href="events.html" class="text-[#1e40af] text-xs font-bold flex items-center gap-1 hover:underline">
-                        Все мероприятия <i data-lucide="chevron-right" size="14"></i>
+                    <h2 class="text-xl font-bold text-gray-900 uppercase tracking-tight">Последние новости</h2>
+                    <a href="news.html" class="text-[#1e40af] text-xs font-bold flex items-center gap-1 hover:underline">
+                        Все новости <i data-lucide="chevron-right" size="14"></i>
                     </a>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Новость 1 -->
+                    <a href="news.html" class="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group">
+                        <div class="aspect-video overflow-hidden">
+                            <img src="https://picsum.photos/seed/library-new/800/500" alt="Новость" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-widest">10 МАРТА, 2026</span>
+                            <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#1e40af] transition-colors leading-tight">Открытие нового филиала в микрорайоне "Солнечный"</h3>
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Рады сообщить, что теперь библиотека стала еще ближе к жителям северной части города.</p>
+                        </div>
+                    </a>
+                    <!-- Новость 2 -->
+                    <a href="news.html" class="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group">
+                        <div class="aspect-video overflow-hidden">
+                            <img src="https://picsum.photos/seed/books-new/800/500" alt="Новость" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-widest">05 МАРТА, 2026</span>
+                            <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#1e40af] transition-colors leading-tight">Пополнение фонда: Новинки современной прозы</h3>
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Более 200 новых наименований поступили в наш фонд на этой неделе.</p>
+                        </div>
+                    </a>
+                    <!-- Новость 3 -->
+                    <a href="news.html" class="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group">
+                        <div class="aspect-video overflow-hidden">
+                            <img src="https://picsum.photos/seed/biblionight/800/500" alt="Новость" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-widest">01 МАРТА, 2026</span>
+                            <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#1e40af] transition-colors leading-tight">Библионочь-2026: Программа мероприятий</h3>
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Готовимся к самому масштабному литературному событию года. Узнайте, что ждет гостей.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- События -->
+        <section class="py-10 px-4 max-w-full lg:px-12 mx-auto">
                     <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden flex flex-col md:flex-row gap-0 md:gap-6 shadow-lg hover:shadow-xl transition-all duration-300 group">
                         <div class="w-full md:w-56 h-48 md:h-auto shrink-0 overflow-hidden">
                             <img src="https://picsum.photos/seed/poetry/600/400" alt="Событие" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">

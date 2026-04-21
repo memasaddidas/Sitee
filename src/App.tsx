@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Book, Calendar, User, MapPin, Phone, Mail, Send, Share2, ArrowRight, ChevronRight, Clock, ShoppingCart, Trash2, Users, Plus, Settings, History } from 'lucide-react';
 import { motion } from 'motion/react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 
 // --- Types ---
 interface User {
@@ -17,6 +17,15 @@ interface BookData {
   category: string;
   available: boolean;
   description?: string;
+}
+
+interface NewsData {
+  id: number;
+  title: string;
+  date: string;
+  excerpt: string;
+  image: string;
+  content: string;
 }
 
 interface EventData {
@@ -43,6 +52,33 @@ const BOOKS: BookData[] = [
 const EVENTS: EventData[] = [
   { id: 1, title: "Литературный вечер: Поэзия Серебряного века", date: "15 Марта", time: "18:00", description: "Обсуждаем творчество Ахматовой и Блока в уютной атмосфере.", image: "https://picsum.photos/seed/poetry/600/400" },
   { id: 2, title: "Мастер-класс по каллиграфии", date: "20 Марта", time: "14:00", description: "Осваиваем искусство красивого письма пером.", image: "https://picsum.photos/seed/calligraphy/600/400" },
+];
+
+const NEWS: NewsData[] = [
+  { 
+    id: 1, 
+    title: "Открытие нового филиала в микрорайоне 'Солнечный'", 
+    date: "10 Марта, 2026", 
+    excerpt: "Рады сообщить, что теперь библиотека стала еще ближе к жителям северной части города.", 
+    image: "https://picsum.photos/seed/library-new/800/500",
+    content: "Мы открыли двери нашего нового, шестого филиала! Современный дизайн, комфортные зоны для чтения и, конечно, тысячи новых книг уже ждут своих читателей. Филиал оборудован по последнему слову техники: станции самообслуживания, высокоскоростной Wi-Fi и уютная кофейня."
+  },
+  { 
+    id: 2, 
+    title: "Пополнение фонда: Новинки современной прозы", 
+    date: "05 Марта, 2026", 
+    excerpt: "Более 200 новых наименований поступили в наш фонд на этой неделе.", 
+    image: "https://picsum.photos/seed/books-new/800/500",
+    content: "В наш фонд поступили долгожданные новинки от ведущих издательств. Среди них — лауреаты литературных премий, захватывающие детективы и актуальный научпоп. Все книги уже доступны для бронирования в нашем электронном каталоге."
+  },
+  { 
+    id: 3, 
+    title: "Библионочь-2026: Программа мероприятий", 
+    date: "01 Марта, 2026", 
+    excerpt: "Готовимся к самому масштабному литературному событию года. Узнайте, что ждет гостей в этом году.", 
+    image: "https://picsum.photos/seed/biblionight/800/500",
+    content: "Ежегодная акция 'Библионочь' в этом году пройдет под девизом 'Магия слова'. В программе: встречи с известными писателями, ночные экскурсии по книгохранилищу, квесты для детей и взрослых, а также живая музыка в стенах библиотеки."
+  }
 ];
 
 // --- Shared Components ---
@@ -144,6 +180,7 @@ const Navbar: React.FC<{ user: User | null; cartCount: number; onAuthClick: () =
         <nav className="hidden md:flex space-x-8">
           <Link to="/" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">ГЛАВНАЯ</Link>
           <Link to="/catalog" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">КАТАЛОГ</Link>
+          <Link to="/news" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">НОВОСТИ</Link>
           <Link to="/events" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">СОБЫТИЯ</Link>
           <Link to="/about" className="text-gray-600 hover:text-brand-blue font-bold text-xs tracking-widest">О НАС</Link>
         </nav>
@@ -343,6 +380,19 @@ const EventCard: React.FC<{ event: EventData }> = ({ event }) => {
   );
 };
 
+const NewsCard: React.FC<{ news: NewsData }> = ({ news }) => (
+  <Link to={`/news/${news.id}`} className="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group">
+    <div className="aspect-video overflow-hidden">
+      <img src={news.image} alt={news.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
+    </div>
+    <div className="p-5">
+      <span className="text-[10px] font-bold text-gray-400 uppercase mb-2 block">{news.date}</span>
+      <h3 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-brand-blue transition-colors leading-tight">{news.title}</h3>
+      <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{news.excerpt}</p>
+    </div>
+  </Link>
+);
+
 // --- Pages ---
 
 const HomePage: React.FC<{ user: User | null; cart: BookData[]; onAddToCart: (book: BookData) => void; onAuthRequired: () => void }> = ({ user, cart, onAddToCart, onAuthRequired }) => (
@@ -416,14 +466,14 @@ const HomePage: React.FC<{ user: User | null; cart: BookData[]; onAddToCart: (bo
     <section className="bg-gray-50 py-10 px-4 border-y border-gray-200">
       <div className="max-w-full lg:px-12">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900 uppercase tracking-tight">Ближайшие события</h2>
-          <Link to="/events" className="text-brand-blue text-xs font-bold flex items-center gap-1 hover:underline">
-            Все мероприятия <ChevronRight size={14} />
+          <h2 className="text-xl font-bold text-gray-900 uppercase tracking-tight">Последние новости</h2>
+          <Link to="/news" className="text-brand-blue text-xs font-bold flex items-center gap-1 hover:underline">
+            Все новости <ChevronRight size={14} />
           </Link>
         </div>
-        <div className="space-y-4">
-          {EVENTS.slice(0, 1).map(event => (
-            <EventCard key={event.id} event={event} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {NEWS.slice(0, 3).map(news => (
+            <NewsCard key={news.id} news={news} />
           ))}
         </div>
       </div>
@@ -559,6 +609,42 @@ const EventsPage = () => (
     </div>
   </div>
 );
+
+const NewsPage = () => (
+  <div className="py-8 px-4 max-w-full lg:px-12 min-h-screen animate-in fade-in duration-500">
+    <div className="border-b border-gray-200 pb-6 mb-8">
+      <h1 className="text-2xl font-bold text-gray-900 mb-1">Новости библиотеки</h1>
+      <p className="text-xs text-gray-500">События, анонсы и важные объявления</p>
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {NEWS.map(news => (
+        <NewsCard key={news.id} news={news} />
+      ))}
+    </div>
+  </div>
+);
+
+const NewsDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const news = NEWS.find(n => n.id === Number(id));
+
+  if (!news) return <div className="py-20 text-center font-bold">Новость не найдена</div>;
+
+  return (
+    <div className="py-12 px-4 max-w-3xl mx-auto min-h-screen animate-in fade-in duration-500">
+      <Link to="/news" className="inline-flex items-center gap-2 text-xs font-bold text-brand-blue mb-8 hover:underline uppercase tracking-widest">
+        <ChevronRight size={14} className="rotate-180" /> Назад к новостям
+      </Link>
+      <img src={news.image} alt={news.title} className="w-full aspect-video object-cover rounded-3xl mb-8 shadow-lg" referrerPolicy="no-referrer" />
+      <span className="text-xs font-bold text-gray-400 uppercase mb-4 block tracking-widest">{news.date}</span>
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">{news.title}</h1>
+      <div className="prose prose-blue max-w-none text-gray-600 leading-relaxed">
+        <p className="text-lg mb-6 font-medium text-gray-900">{news.excerpt}</p>
+        <p>{news.content}</p>
+      </div>
+    </div>
+  );
+};
 
 const AboutPage = () => (
   <div className="py-8 px-4 max-w-full lg:px-12 animate-in fade-in duration-500">
@@ -723,6 +809,8 @@ export default function App() {
             <Route path="/catalog" element={<CatalogPage user={user} cart={cart} onAddToCart={addToCart} onAuthRequired={() => setIsAuthModalOpen(true)} />} />
             <Route path="/cart" element={<CartPage cart={cart} onRemoveFromCart={removeFromCart} onCheckout={clearCart} />} />
             <Route path="/profile" element={<ProfilePage user={user} />} />
+            <Route path="/news" element={<NewsPage />} />
+            <Route path="/news/:id" element={<NewsDetailPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

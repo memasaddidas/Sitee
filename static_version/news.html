@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости — Городская Библиотека</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+    <!-- Навигация -->
+    <nav class="border-b border-gray-100 py-4 px-6 bg-white sticky top-0 z-50">
+        <div class="max-w-full lg:px-12 mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-[#1e40af] font-bold text-xl">
+                <i data-lucide="book"></i>
+                <div class="flex flex-col">
+                    <span class="text-lg font-bold leading-none">БИБЛИОТЕКА</span>
+                    <span class="text-[10px] font-medium leading-none text-gray-500 uppercase tracking-tighter">Г. ОБНИНСК</span>
+                </div>
+            </a>
+            <div class="hidden md:flex gap-8 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
+                <a href="index.html" class="hover:text-[#1e40af] transition-colors">Главная</a>
+                <a href="catalog.html" class="hover:text-[#1e40af] transition-colors">Каталог</a>
+                <a href="news.html" class="text-[#1e40af]">Новости</a>
+                <a href="events.html" class="hover:text-[#1e40af] transition-colors">События</a>
+                <a href="about.html" class="hover:text-[#1e40af] transition-colors">О нас</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="cart.html" class="relative p-2 text-gray-600 hover:text-[#1e40af] transition-colors">
+                    <i data-lucide="shopping-cart" size="22"></i>
+                    <span class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+                </a>
+                <a href="profile.html" class="flex items-center gap-2 text-[10px] font-bold text-gray-600 hover:text-[#1e40af] transition-colors">
+                    <i data-lucide="user" size="20"></i>
+                    <span>ПРОФИЛЬ</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-8 px-4 max-w-full lg:px-12 mx-auto">
+        <div class="border-b border-gray-200 pb-6 mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-1">Новости библиотеки</h1>
+            <p class="text-xs text-gray-500">События, анонсы и важные объявления</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Новость 1 -->
+            <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group cursor-pointer" onclick="showNewsDetail(1)">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://picsum.photos/seed/library-new/800/500" alt="Новость" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-widest">10 МАРТА, 2026</span>
+                    <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#1e40af] transition-colors leading-tight">Открытие нового филиала в микрорайоне "Солнечный"</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Рады сообщить, что теперь библиотека стала еще ближе к жителям северной части города.</p>
+                </div>
+            </div>
+            <!-- Новость 2 -->
+            <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group cursor-pointer" onclick="showNewsDetail(2)">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://picsum.photos/seed/books-new/800/500" alt="Новость" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-widest">05 МАРТА, 2026</span>
+                    <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#1e40af] transition-colors leading-tight">Пополнение фонда: Новинки современной прозы</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Более 200 новых наименований поступили в наш фонд на этой неделе.</p>
+                </div>
+            </div>
+            <!-- Новость 3 -->
+            <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all group cursor-pointer" onclick="showNewsDetail(3)">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://picsum.photos/seed/biblionight/800/500" alt="Новость" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-widest">01 МАРТА, 2026</span>
+                    <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#1e40af] transition-colors leading-tight">Библионочь-2026: Программа мероприятий</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Готовимся к самому масштабному литературному событию года. Узнайте, что ждет гостей.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно новости -->
+    <div id="news-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeNewsModal()"></div>
+        <div class="relative bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in duration-300">
+            <button onclick="closeNewsModal()" class="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur rounded-full text-gray-500 hover:text-gray-900 z-10">
+                <i data-lucide="x" size="20"></i>
+            </button>
+            <img id="modal-image" src="" alt="" class="w-full aspect-video object-cover">
+            <div class="p-8">
+                <span id="modal-date" class="text-[10px] font-bold text-gray-400 uppercase mb-4 block tracking-widest"></span>
+                <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 leading-tight"></h2>
+                <div class="prose prose-blue max-w-none text-gray-600 leading-relaxed">
+                    <p id="modal-excerpt" class="text-lg mb-6 font-medium text-gray-900"></p>
+                    <p id="modal-content"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="bg-gray-50 border-t border-gray-200 pt-16 pb-8 px-6">
+        <div class="max-w-full lg:px-12 mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="book" class="text-[#1e40af]" size="28"></i>
+                    <span class="text-xl font-bold text-[#1e40af]">БИБЛИОТЕКА Г. ОБНИНСК</span>
+                </div>
+                <p class="text-gray-500 max-w-sm mb-6">Официальный портал муниципальных библиотек города. Мы работаем для вас каждый день.</p>
+                <div class="flex gap-4">
+                    <a href="https://t.me/your_tg" target="_blank" class="text-gray-400 hover:text-[#1e40af] transition-colors" title="Telegram"><i data-lucide="send" size="20"></i></a>
+                    <a href="https://vk.com/your_vk" target="_blank" class="text-gray-400 hover:text-[#1e40af] transition-colors" title="VK">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle;">
+                            <path d="M13.162 18.994c.609 0 .858-.406.858-.915v-2.217c0-.306.075-.456.258-.456.183 0 .483.15.975.645 1.074 1.08 1.488 1.515 2.493 1.515h2.133c.609 0 .916-.305.739-.9-.177-.595-1.162-1.635-1.635-2.133-.473-.498-.375-.675 0-1.275 0 0 1.59-2.235 1.755-3.015.09-.42-.09-.72-.69-.72h-2.133c-.51 0-.744.27-.87.57 0 0-1.08 2.64-2.61 4.35-.495.495-.72.645-.975.645-.128 0-.315-.15-.315-.585V10.134c0-.51-.147-.72-.57-.72h-3.345c-.315 0-.51.234-.51.456 0 .483.72.594.795 1.95v2.955c0 .645-.117.762-.372.762-.675 0-2.325-2.655-3.3-5.685-.195-.57-.39-.801-.9-.801H2.487c-.69 0-.825.324-.825.675 0 .63 1.185 3.735 3.9 7.53 2.58 3.6 6.21 5.535 9.51 5.535l.09-.015z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase text-xs tracking-widest">Информация</h4>
+                <ul class="space-y-4 text-gray-500 text-sm">
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="map-pin" size="18" class="text-[#1e40af] shrink-0"></i>
+                        <span>ул. Пушкина, д. 10, Центральный район</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="phone" size="18" class="text-[#1e40af] shrink-0"></i>
+                        <span>+7 (800) 123-45-67</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="mail" size="18" class="text-[#1e40af] shrink-0"></i>
+                        <span>memassadidas@yandex.ru</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase text-xs tracking-widest">Режим работы</h4>
+                <ul class="space-y-2 text-gray-500 text-sm">
+                    <li class="flex justify-between">
+                        <span>Будни</span>
+                        <span class="font-medium">09:00 - 21:00</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span>Выходные</span>
+                        <span class="font-medium">10:00 - 19:00</span>
+                    </li>
+                    <li class="pt-4 flex items-center gap-2 text-[#1e40af] text-xs italic">
+                        <i data-lucide="clock" size="14"></i>
+                        <span>Последняя пятница — санитарный день</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-full lg:px-12 pt-8 border-t border-gray-200 text-center text-xs text-gray-400">
+            © 2026 Муниципальное бюджетное учреждение культуры «Городская библиотека».
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const NEWS = [
+            { 
+                id: 1, 
+                title: "Открытие нового филиала в микрорайоне 'Солнечный'", 
+                date: "10 Марта, 2026", 
+                excerpt: "Рады сообщить, что теперь библиотека стала еще ближе к жителям северной части города.", 
+                image: "https://picsum.photos/seed/library-new/800/500",
+                content: "Мы открыли двери нашего нового, шестого филиала! Современный дизайн, комфортные зоны для чтения и, конечно, тысячи новых книг уже ждут своих читателей. Филиал оборудован по последнему слову техники: станции самообслуживания, высокоскоростной Wi-Fi и уютная кофейня."
+            },
+            { 
+                id: 2, 
+                title: "Пополнение фонда: Новинки современной прозы", 
+                date: "05 Марта, 2026", 
+                excerpt: "Более 200 новых наименований поступили в наш фонд на этой неделе.", 
+                image: "https://picsum.photos/seed/books-new/800/500",
+                content: "В наш фонд поступили долгожданные новинки от ведущих издательств. Среди них — лауреаты литературных премий, захватывающие детективы и актуальный научпоп. Все книги уже доступны для бронирования в нашем электронном каталоге."
+            },
+            { 
+                id: 3, 
+                title: "Библионочь-2026: Программа мероприятий", 
+                date: "01 Марта, 2026", 
+                excerpt: "Готовимся к самому масштабному литературному событию года. Узнайте, что ждет гостей в этом году.", 
+                image: "https://picsum.photos/seed/biblionight/800/500",
+                content: "Ежегодная акция 'Библионочь' в этом году пройдет под девизом 'Магия слова'. В программе: встречи с известными писателями, ночные экскурсии по книгохранилищу, квесты для детей и взрослых, а также живая музыка в стенах библиотеки."
+            }
+        ];
+
+        function showNewsDetail(id) {
+            const news = NEWS.find(n => n.id === id);
+            if (!news) return;
+
+            document.getElementById('modal-image').src = news.image;
+            document.getElementById('modal-date').innerText = news.date;
+            document.getElementById('modal-title').innerText = news.title;
+            document.getElementById('modal-excerpt').innerText = news.excerpt;
+            document.getElementById('modal-content').innerText = news.content;
+
+            document.getElementById('news-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNewsModal() {
+            document.getElementById('news-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
